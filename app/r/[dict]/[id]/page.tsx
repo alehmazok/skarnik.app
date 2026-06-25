@@ -77,7 +77,7 @@ export default async function WordPage({ params }: PageProps) {
 
         <h1 style={{
           margin: 0, fontWeight: 700,
-          fontSize: 'clamp(1.9rem,9.5vw,7rem)',
+          fontSize: headingFontSize(word.text),
           lineHeight: .98, letterSpacing: '-.035em',
           color: 'var(--ink)', maxWidth: '100%', overflowWrap: 'break-word',
         }}>
@@ -118,6 +118,13 @@ function renderStressedWord(text: string): React.ReactNode {
       ))}
     </>
   )
+}
+
+function headingFontSize(text: string): string {
+  const len = text.length
+  if (len > 40) return 'clamp(1.9rem,9.5vw,2.8rem)'
+  if (len > 20) return 'clamp(1.9rem,9.5vw,4.5rem)'
+  return 'clamp(1.9rem,9.5vw,7rem)'
 }
 
 function dictLabel(dict: string): string {
