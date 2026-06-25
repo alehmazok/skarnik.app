@@ -1,48 +1,118 @@
-export default function Footer() {
-  return (
-    <footer style={{
-      display: 'flex', flexDirection: 'column', alignItems: 'center',
-      gap: 24, padding: '30px clamp(20px,5vw,56px)',
-      borderTop: '1px solid var(--line)',
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
-        <StoreButton
-          href="https://apps.apple.com/pl/app/skarnik/id988334682"
-          icon={<AppleIcon />}
-          eyebrow="Download on the"
-          label="App Store"
-        />
-        <StoreButton
-          href="https://play.google.com/store/apps/details?id=by.mazokaleh.skarnik"
-          icon={<GooglePlayIcon />}
-          eyebrow="Get it on"
-          label="Google Play"
-        />
-        <StoreButton
-          href="https://appgallery.huawei.com/app/C108065259"
-          icon={<AppGalleryIcon />}
-          eyebrow="Explore it on"
-          label="AppGallery"
-        />
-      </div>
+'use client'
 
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        flexWrap: 'wrap', gap: 14, width: '100%',
+import { useRef } from 'react'
+
+export default function Footer() {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+
+  function openAbout() {
+    dialogRef.current?.showModal()
+  }
+
+  function closeAbout() {
+    dialogRef.current?.close()
+  }
+
+  function handleBackdropClick(e: React.MouseEvent<HTMLDialogElement>) {
+    if (e.target === dialogRef.current) closeAbout()
+  }
+
+  return (
+    <>
+      <footer style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        gap: 24, padding: '30px clamp(20px,5vw,56px)',
+        borderTop: '1px solid var(--line)',
       }}>
-        <span style={{
-          fontFamily: 'var(--font-mono), monospace',
-          fontSize: 12, color: 'var(--faint)', letterSpacing: '.02em',
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
+          <StoreButton
+            href="https://apps.apple.com/pl/app/skarnik/id988334682"
+            icon={<AppleIcon />}
+            eyebrow="Download on the"
+            label="App Store"
+          />
+          <StoreButton
+            href="https://play.google.com/store/apps/details?id=by.mazokaleh.skarnik"
+            icon={<GooglePlayIcon />}
+            eyebrow="Get it on"
+            label="Google Play"
+          />
+          <StoreButton
+            href="https://appgallery.huawei.com/app/C108065259"
+            icon={<AppGalleryIcon />}
+            eyebrow="Explore it on"
+            label="AppGallery"
+          />
+        </div>
+
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          flexWrap: 'wrap', gap: 14, width: '100%',
         }}>
-          © 2026 Skarnik.app
-        </span>
-        <nav style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px,3vw,30px)' }}>
-          <FooterLink href="#">About</FooterLink>
-          <FooterLink href="https://starnik.by">Starnik.by</FooterLink>
-          <FooterLink href="https://drukarnik.app">Drukarnik.app</FooterLink>
-        </nav>
-      </div>
-    </footer>
+          <span style={{
+            fontFamily: 'var(--font-mono), monospace',
+            fontSize: 12, color: 'var(--faint)', letterSpacing: '.02em',
+          }}>
+            © 2026 Skarnik.app
+          </span>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px,3vw,30px)' }}>
+            <FooterButton onClick={openAbout}>About</FooterButton>
+            <FooterLink href="https://starnik.by">Starnik.by</FooterLink>
+            <FooterLink href="https://drukarnik.app">Drukarnik.app</FooterLink>
+          </nav>
+        </div>
+      </footer>
+
+      <dialog
+        ref={dialogRef}
+        onClick={handleBackdropClick}
+        style={{
+          background: 'var(--panel)',
+          color: 'var(--ink)',
+          border: '1px solid var(--line)',
+          borderRadius: 14,
+          padding: 0,
+          maxWidth: 480,
+          width: 'calc(100vw - 40px)',
+        }}
+      >
+        <div style={{ padding: '28px 28px 24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
+            <span style={{ fontWeight: 600, fontSize: 17, color: 'var(--ink)' }}>Пра слоўнік</span>
+            <button
+              onClick={closeAbout}
+              aria-label="Закрыць"
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                color: 'var(--faint)', fontSize: 20, lineHeight: 1,
+                padding: '0 0 0 16px', marginTop: -2,
+              }}
+            >
+              ×
+            </button>
+          </div>
+          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, color: 'var(--soft)' }}>
+            Skarnik — электронны руска-беларускі слоўнік. За аснову ўзяты
+            акадэмічны слоўнік, які быў выпушчаны ў 1953 годзе (пад рэдакцыяй
+            Я. Коласа, К. Крапівы і П. Глебкі) і затым некалькі разоў
+            перавыдаваўся з выпраўленнямі і дапаўненнямі.
+          </p>
+          <p style={{ margin: '14px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--soft)' }}>
+            Сайт skarnik.by пачаў працаваць 7 жніўня 2012 года.
+          </p>
+        </div>
+      </dialog>
+
+      <style>{`
+        dialog::backdrop {
+          background: rgba(0, 0, 0, 0.45);
+          backdrop-filter: blur(2px);
+        }
+        dialog[open] {
+          animation: pop .18s ease;
+        }
+      `}</style>
+    </>
   )
 }
 
@@ -78,6 +148,21 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
     <a href={href} style={{ fontSize: 14, color: 'var(--soft)', textDecoration: 'none', transition: 'color .2s' }}>
       {children}
     </a>
+  )
+}
+
+function FooterButton({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+        fontSize: 14, color: 'var(--soft)', transition: 'color .2s',
+        fontFamily: 'inherit',
+      }}
+    >
+      {children}
+    </button>
   )
 }
 
