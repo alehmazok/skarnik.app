@@ -143,6 +143,34 @@ lib/
 - Shallow mocks are acceptable for unit tests that validate query construction (see `words.test.ts`)
 - Do not use mocks as a substitute for real data shape validation — any new Supabase query shape must be manually verified against the live DB via MCP before writing tests
 
+## GitHub Projects integration
+
+Project board: **alehmazok/Skarnik.app** (project number **3**, ID `PVT_kwHOAAbvLs4BbqHV`)
+Repo: `alehmazok/skarnik.app`
+Status field ID: `PVTSSF_lAHOAAbvLs4BbqHVzhWZIp0`
+Status options: `Todo` (`f75ad846`) · `In Progress` (`47fc9ee4`) · `Done` (`98236657`)
+
+### Workflow before every implementation task
+
+1. `gh issue create --repo alehmazok/skarnik.app` — title + structured description (goal, approach, acceptance criteria)
+2. `gh project item-add 3 --owner alehmazok --url <issue-url>` — attach to board
+3. Set status → **In Progress** via `gh project item-edit`
+4. After done → status **Done** + `gh issue close`
+
+### Useful commands
+
+```bash
+# List board
+gh project item-list 3 --owner alehmazok
+
+# Set status (replace ITEM_ID and OPTION_ID)
+gh project item-edit --project-id PVT_kwHOAAbvLs4BbqHV --id <ITEM_ID> \
+  --field-id PVTSSF_lAHOAAbvLs4BbqHVzhWZIp0 --single-select-option-id <OPTION_ID>
+
+# Add comment
+gh issue comment <number> --repo alehmazok/skarnik.app --body "..."
+```
+
 ## Context not in code
 
 - The `.dc.html` prototype in this repo is the original Claude Design export — reference for visual design only, not used in production
