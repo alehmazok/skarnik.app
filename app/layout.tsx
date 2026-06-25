@@ -19,6 +19,7 @@ const mono = Spline_Sans_Mono({
 export const metadata: Metadata = {
   title: 'Skarnik.app',
   description: 'Беларускі слоўнік',
+  manifest: '/site.webmanifest',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
