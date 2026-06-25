@@ -6,3 +6,7 @@ node_modules/
 .DS_Store
 .mcp.json
 .claude/
+
+# Design prototype — not used in production
+Skarnik.dc.html
+support.js
