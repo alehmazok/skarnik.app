@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { splitAtStress } from '../stress'
+import { splitAtStress, splitStressedText } from '../stress'
 
 describe('splitAtStress', () => {
   it('splits word at combining acute accent', () => {
@@ -44,5 +44,32 @@ describe('splitAtStress', () => {
   it('preserves combining accent in stressed segment', () => {
     const result = splitAtStress('до́бры')
     expect(result?.stressed).toBe('о́')
+  })
+})
+
+describe('splitStressedText', () => {
+  it('returns single StressParts for single stressed word', () => {
+    const result = splitStressedText('ка́са')
+    expect(result).toHaveLength(1)
+    expect(result[0]).toEqual({ before: 'к', stressed: 'а́', after: 'са' })
+  })
+
+  it('splits pipe-separated words and stresses each', () => {
+    const result = splitStressedText('ка́са | каса́')
+    expect(result).toHaveLength(2)
+    expect(result[0]).toEqual({ before: 'к', stressed: 'а́', after: 'са' })
+    expect(result[1]).toEqual({ before: 'кас', stressed: 'а́', after: '' })
+  })
+
+  it('returns string for segment with no stress mark', () => {
+    const result = splitStressedText('каса | каса́')
+    expect(result[0]).toBe('каса')
+    expect(result[1]).toEqual({ before: 'кас', stressed: 'а́', after: '' })
+  })
+
+  it('handles single unstressed word', () => {
+    const result = splitStressedText('каса')
+    expect(result).toHaveLength(1)
+    expect(result[0]).toBe('каса')
   })
 })

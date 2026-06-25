@@ -13,3 +13,7 @@ export function splitAtStress(text: string): StressParts | null {
     after: text.slice(accentIdx + 1),
   }
 }
+
+export function splitStressedText(text: string): (StressParts | string)[] {
+  return text.split(' | ').map(seg => splitAtStress(seg) ?? seg)
+}

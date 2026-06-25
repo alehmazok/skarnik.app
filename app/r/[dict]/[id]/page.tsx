@@ -1,6 +1,6 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
-import { splitAtStress } from '@/lib/stress'
+import { splitStressedText } from '@/lib/stress'
 import type { Metadata } from 'next'
 import DOMPurify from 'isomorphic-dompurify'
 import { isValidDict } from '@/lib/dict'
@@ -101,13 +101,21 @@ export default async function WordPage({ params }: PageProps) {
 }
 
 function renderStressedWord(text: string): React.ReactNode {
-  const parts = splitAtStress(text)
-  if (!parts) return text
+  const segments = splitStressedText(text)
   return (
     <>
-      {parts.before}
-      <span style={{ color: 'var(--accent)' }}>{parts.stressed}</span>
-      {parts.after}
+      {segments.map((seg, i) => (
+        <React.Fragment key={i}>
+          {i > 0 && ' | '}
+          {typeof seg === 'string' ? seg : (
+            <>
+              {seg.before}
+              <span style={{ color: 'var(--accent)' }}>{seg.stressed}</span>
+              {seg.after}
+            </>
+          )}
+        </React.Fragment>
+      ))}
     </>
   )
 }
