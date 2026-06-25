@@ -1,0 +1,63 @@
+:root {
+  --bg: #faf8f3;
+  --panel: #fffdf8;
+  --ink: #171411;
+  --soft: #5f5a52;
+  --faint: #9c968c;
+  --line: rgba(23, 20, 17, 0.10);
+  --accent: #bb3326;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #13110e;
+    --panel: #1a1714;
+    --ink: #f2ece1;
+    --soft: #a39c90;
+    --faint: #6f6a61;
+    --line: rgba(242, 236, 225, 0.12);
+    --accent: #e3604f;
+  }
+}
+
+[data-theme="dark"] {
+  --bg: #13110e;
+  --panel: #1a1714;
+  --ink: #f2ece1;
+  --soft: #a39c90;
+  --faint: #6f6a61;
+  --line: rgba(242, 236, 225, 0.12);
+  --accent: #e3604f;
+}
+
+[data-theme="light"] {
+  --bg: #faf8f3;
+  --panel: #fffdf8;
+  --ink: #171411;
+  --soft: #5f5a52;
+  --faint: #9c968c;
+  --line: rgba(23, 20, 17, 0.10);
+  --accent: #bb3326;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-grotesk), Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

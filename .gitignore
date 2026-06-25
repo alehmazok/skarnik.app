@@ -1,0 +1,8 @@
+.next/
+node_modules/
+.env*.local
+*.tsbuildinfo
+/build
+.DS_Store
+.mcp.json
+.claude/
