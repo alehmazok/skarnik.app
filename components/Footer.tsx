@@ -7,19 +7,19 @@ export default function Footer() {
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
         <StoreButton
-          href="#"
+          href="https://apps.apple.com/pl/app/skarnik/id988334682"
           icon={<AppleIcon />}
           eyebrow="Download on the"
           label="App Store"
         />
         <StoreButton
-          href="#"
+          href="https://play.google.com/store/apps/details?id=by.mazokaleh.skarnik"
           icon={<GooglePlayIcon />}
           eyebrow="Get it on"
           label="Google Play"
         />
         <StoreButton
-          href="#"
+          href="https://appgallery.huawei.com/app/C108065259"
           icon={<AppGalleryIcon />}
           eyebrow="Explore it on"
           label="AppGallery"
@@ -53,7 +53,7 @@ function StoreButton({ href, icon, eyebrow, label }: {
   label: string
 }) {
   return (
-    <a href={href} style={{
+    <a href={href} target="_blank" rel="noopener noreferrer" style={{
       display: 'flex', alignItems: 'center', gap: 10,
       height: 48, padding: '0 18px',
       border: '1px solid var(--line)', borderRadius: 10,
