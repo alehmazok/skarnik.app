@@ -2,7 +2,7 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import { splitStressedText } from '@/lib/stress'
 import type { Metadata } from 'next'
-import DOMPurify from 'isomorphic-dompurify'
+import sanitizeHtml from 'sanitize-html'
 import { isValidDict } from '@/lib/dict'
 import { getWord } from '@/lib/words'
 import Header from '@/components/Header'
@@ -47,9 +47,13 @@ export default async function WordPage({ params }: PageProps) {
     }
   }
 
-  const safeHtml = DOMPurify.sanitize(word.translation, {
-    ALLOWED_TAGS: ['span', 'strong', 'em', 'i', 'b', 'br', 'font', 'a'],
-    ALLOWED_ATTR: ['color', 'size', 'class', 'href'],
+  const safeHtml = sanitizeHtml(word.translation, {
+    allowedTags: ['span', 'strong', 'em', 'i', 'b', 'br', 'font', 'a'],
+    allowedAttributes: {
+      'font': ['color', 'size'],
+      'a': ['href'],
+      '*': ['class'],
+    },
   })
 
   return (
