@@ -5,7 +5,7 @@
   --soft: #5f5a52;
   --faint: #9c968c;
   --line: rgba(23, 20, 17, 0.10);
-  --accent: #bb3326;
+  --accent: #D4382C;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,7 +16,7 @@
     --soft: #a39c90;
     --faint: #6f6a61;
     --line: rgba(242, 236, 225, 0.12);
-    --accent: #e3604f;
+    --accent: #E84840;
   }
 }
 
@@ -27,7 +27,7 @@
   --soft: #a39c90;
   --faint: #6f6a61;
   --line: rgba(242, 236, 225, 0.12);
-  --accent: #e3604f;
+  --accent: #E84840;
 }
 
 [data-theme="light"] {
@@ -37,7 +37,7 @@
   --soft: #5f5a52;
   --faint: #9c968c;
   --line: rgba(23, 20, 17, 0.10);
-  --accent: #bb3326;
+  --accent: #D4382C;
 }
 
 *, *::before, *::after {
@@ -60,4 +60,87 @@ body {
 @keyframes pop {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Translation HTML legacy color overrides ────────────────────────────── */
+/* Maps hardcoded <font color> values from DB to theme-aware equivalents.    */
+/* Color groups mirror the mobile app's colorConversions table.              */
+
+/* White → off-white in light */
+.translation-html font[color="FFFFFF" i],
+.translation-html font[color="#FFFFFF" i] { color: #F2F2F7; }
+
+/* Red group — light */
+.translation-html font[color="831b03" i],
+.translation-html font[color="#831b03" i],
+.translation-html font[color="0000A0" i],
+.translation-html font[color="#0000A0" i],
+.translation-html font[color="4863A0" i],
+.translation-html font[color="#4863A0" i] { color: #D4382C; }
+
+/* Purple group — light */
+.translation-html font[color="008000" i],
+.translation-html font[color="#008000" i],
+.translation-html font[color="A52A2A" i],
+.translation-html font[color="#A52A2A" i],
+.translation-html font[color="CC33FF" i],
+.translation-html font[color="#CC33FF" i] { color: #5856D6; }
+
+/* Gray group — light */
+.translation-html font[color="5f5f5f" i],
+.translation-html font[color="#5f5f5f" i],
+.translation-html font[color="151B54" i],
+.translation-html font[color="#151B54" i] { color: #68686E; }
+
+/* Dark theme overrides */
+[data-theme="dark"] .translation-html font[color="831b03" i],
+[data-theme="dark"] .translation-html font[color="#831b03" i],
+[data-theme="dark"] .translation-html font[color="0000A0" i],
+[data-theme="dark"] .translation-html font[color="#0000A0" i],
+[data-theme="dark"] .translation-html font[color="4863A0" i],
+[data-theme="dark"] .translation-html font[color="#4863A0" i] { color: #E84840; }
+
+[data-theme="dark"] .translation-html font[color="FFFFFF" i],
+[data-theme="dark"] .translation-html font[color="#FFFFFF" i] { color: #1C1C1E; }
+
+[data-theme="dark"] .translation-html font[color="008000" i],
+[data-theme="dark"] .translation-html font[color="#008000" i],
+[data-theme="dark"] .translation-html font[color="A52A2A" i],
+[data-theme="dark"] .translation-html font[color="#A52A2A" i],
+[data-theme="dark"] .translation-html font[color="CC33FF" i],
+[data-theme="dark"] .translation-html font[color="#CC33FF" i] { color: #5E5CE6; }
+
+[data-theme="dark"] .translation-html font[color="000000" i],
+[data-theme="dark"] .translation-html font[color="#000000" i] { color: #FFFFFF; }
+
+[data-theme="dark"] .translation-html font[color="5f5f5f" i],
+[data-theme="dark"] .translation-html font[color="#5f5f5f" i],
+[data-theme="dark"] .translation-html font[color="151B54" i],
+[data-theme="dark"] .translation-html font[color="#151B54" i] { color: #98989F; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .translation-html font[color="831b03" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#831b03" i],
+  :root:not([data-theme="light"]) .translation-html font[color="0000A0" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#0000A0" i],
+  :root:not([data-theme="light"]) .translation-html font[color="4863A0" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#4863A0" i] { color: #E84840; }
+
+  :root:not([data-theme="light"]) .translation-html font[color="FFFFFF" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#FFFFFF" i] { color: #1C1C1E; }
+
+  :root:not([data-theme="light"]) .translation-html font[color="008000" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#008000" i],
+  :root:not([data-theme="light"]) .translation-html font[color="A52A2A" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#A52A2A" i],
+  :root:not([data-theme="light"]) .translation-html font[color="CC33FF" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#CC33FF" i] { color: #5E5CE6; }
+
+  :root:not([data-theme="light"]) .translation-html font[color="000000" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#000000" i] { color: #FFFFFF; }
+
+  :root:not([data-theme="light"]) .translation-html font[color="5f5f5f" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#5f5f5f" i],
+  :root:not([data-theme="light"]) .translation-html font[color="151B54" i],
+  :root:not([data-theme="light"]) .translation-html font[color="#151B54" i] { color: #98989F; }
 }

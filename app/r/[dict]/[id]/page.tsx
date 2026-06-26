@@ -90,6 +90,7 @@ export default async function WordPage({ params }: PageProps) {
         </h1>
 
         <div
+          className="translation-html"
           style={{
             margin: 'clamp(26px,5vh,44px) auto 0',
             maxWidth: '46ch', textAlign: 'left', width: '100%',
