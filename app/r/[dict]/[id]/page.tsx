@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { splitStressedText } from '@/lib/stress'
 import type { Metadata } from 'next'
 import sanitizeHtml from 'sanitize-html'
-import { isValidDict } from '@/lib/dict'
+import { isValidDict, buildOgDescription } from '@/lib/dict'
 import { getWord } from '@/lib/words'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -22,11 +22,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!Number.isInteger(externalId) || externalId <= 0) return {}
   const word = await getWord(dict, externalId)
   if (!word) return {}
+  const displayTitle = `${word.stress ?? word.text} — Skarnik.app`
+  const description = buildOgDescription(word.text, dict)
   return {
-    title: `${word.stress ?? word.text} — Skarnik.app`,
-    description: `Значэнне слова "${word.text}" у беларускім слоўніку`,
+    title: displayTitle,
+    description,
+    openGraph: {
+      title: displayTitle,
+      description,
+      url: `/r/${dict}/${id}`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+    },
   }
 }
+
 
 export default async function WordPage({ params }: PageProps) {
   const { dict, id } = await params

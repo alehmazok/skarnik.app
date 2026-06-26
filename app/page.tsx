@@ -1,5 +1,16 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+
+export const metadata: Metadata = {
+  title: 'Skarnik.app — Беларускі слоўнік',
+  description: 'Беларускі слоўнік для iOS і Android',
+  openGraph: {
+    title: 'Skarnik.app',
+    description: 'Беларускі слоўнік для iOS і Android',
+    url: '/',
+  },
+}
 
 export default function LandingPage() {
   return (
