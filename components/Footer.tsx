@@ -61,7 +61,7 @@ export default function Footer() {
             © 2026 Skarnik.app
           </span>
           <nav style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px,3vw,30px)' }}>
-            <FooterButton onClick={openAbout}>About</FooterButton>
+            <FooterButton onClick={openAbout}>Пра Скарнік</FooterButton>
             <FooterLink href="https://starnik.by">Starnik.by</FooterLink>
             <FooterLink href="https://drukarnik.app">Drukarnik.app</FooterLink>
           </nav>

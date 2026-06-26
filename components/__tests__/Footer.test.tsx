@@ -19,7 +19,7 @@ beforeEach(() => {
 describe('Footer', () => {
   it('renders About button', () => {
     render(<Footer />)
-    expect(screen.getByRole('button', { name: 'About' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Пра Скарнік' })).toBeInTheDocument()
   })
 
   it('modal contains correct text', () => {
@@ -30,20 +30,20 @@ describe('Footer', () => {
 
   it('clicking About calls showModal', () => {
     render(<Footer />)
-    fireEvent.click(screen.getByRole('button', { name: 'About' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Пра Скарнік' }))
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1)
   })
 
   it('close button calls close', () => {
     render(<Footer />)
-    fireEvent.click(screen.getByRole('button', { name: 'About' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Пра Скарнік' }))
     fireEvent.click(screen.getByRole('button', { name: 'Закрыць' }))
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1)
   })
 
   it('backdrop click calls close', () => {
     render(<Footer />)
-    fireEvent.click(screen.getByRole('button', { name: 'About' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Пра Скарнік' }))
     const dialog = document.querySelector('dialog')!
     fireEvent.click(dialog, { target: dialog })
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1)
