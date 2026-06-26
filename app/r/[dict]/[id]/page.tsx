@@ -7,6 +7,7 @@ import { isValidDict } from '@/lib/dict'
 import { getWord } from '@/lib/words'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import WordViewTracker from '@/components/WordViewTracker'
 
 export const revalidate = 86400
 
@@ -96,6 +97,7 @@ export default async function WordPage({ params }: PageProps) {
       </main>
 
       <Footer />
+      <WordViewTracker dict={dict} wordId={externalId} />
     </div>
   )
 }

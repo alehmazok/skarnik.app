@@ -1,12 +1,14 @@
 'use client'
 
 import { useRef } from 'react'
+import posthog from 'posthog-js'
 
 export default function Footer() {
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   function openAbout() {
     dialogRef.current?.showModal()
+    posthog.capture('about_opened')
   }
 
   function closeAbout() {
@@ -30,18 +32,21 @@ export default function Footer() {
             icon={<AppleIcon />}
             eyebrow="Download on the"
             label="App Store"
+            store="app_store"
           />
           <StoreButton
             href="https://play.google.com/store/apps/details?id=by.mazokaleh.skarnik"
             icon={<GooglePlayIcon />}
             eyebrow="Get it on"
             label="Google Play"
+            store="google_play"
           />
           <StoreButton
             href="https://appgallery.huawei.com/app/C108065259"
             icon={<AppGalleryIcon />}
             eyebrow="Explore it on"
             label="AppGallery"
+            store="appgallery"
           />
         </div>
 
@@ -116,20 +121,26 @@ export default function Footer() {
   )
 }
 
-function StoreButton({ href, icon, eyebrow, label }: {
+function StoreButton({ href, icon, eyebrow, label, store }: {
   href: string
   icon: React.ReactNode
   eyebrow: string
   label: string
+  store: string
 }) {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" style={{
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => posthog.capture('app_store_clicked', { store })}
+      style={{
       display: 'flex', alignItems: 'center', gap: 10,
       height: 48, padding: '0 18px',
       border: '1px solid var(--line)', borderRadius: 10,
       background: 'transparent', textDecoration: 'none',
       transition: 'border-color .2s, transform .2s',
-    }}>
+      }}>
       {icon}
       <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.05 }}>
         <span style={{

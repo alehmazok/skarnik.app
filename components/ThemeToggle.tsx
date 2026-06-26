@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import posthog from 'posthog-js'
 
 type Theme = 'auto' | 'light' | 'dark'
 
@@ -27,6 +28,7 @@ export default function ThemeToggle() {
     else document.documentElement.setAttribute('data-theme', next)
     try { localStorage.setItem('skarnik-theme', next) } catch {}
     setTheme(next)
+    posthog.capture('theme_changed', { theme: next })
   }
 
   const { glyph, label } = LABELS[theme]
