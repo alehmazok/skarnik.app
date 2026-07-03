@@ -4,12 +4,12 @@ Landing page and word-sharing surface for the Skarnik mobile app — a Belarusia
 
 ## Stack
 
-- **Runtime:** Bun (dev + CI), Node.js (Vercel production)
+- **Runtime:** Bun (dev + CI), Node.js 22-alpine (Docker runtime image)
 - **Framework:** Next.js 15, App Router, TypeScript (strict)
 - **Styling:** CSS custom properties + CSS Modules. No Tailwind.
 - **Data:** Supabase (server-side only, never expose service key to client)
 - **Analytics:** PostHog (client-side, browser only)
-- **Deploy:** Vercel (auto-detects Bun via `bun.lockb`)
+- **Deploy:** self-hosted VPS via Docker. GitHub Actions (`.github/workflows/deploy.yml`) builds a multi-stage Docker image (`Dockerfile`, `output: 'standalone'`), pushes to `ghcr.io/<repo>:latest`, then SSHes into the VPS and runs `docker compose pull && docker compose up -d` from `/opt/skarnik`. Not Vercel.
 
 ## Dev commands
 
