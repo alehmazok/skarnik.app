@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Schibsted_Grotesk, Spline_Sans_Mono } from 'next/font/google'
+import CookieConsent from '@/components/CookieConsent'
 import './globals.css'
 
 const grotesk = Schibsted_Grotesk({
@@ -40,7 +41,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `(function(){try{var t=localStorage.getItem('skarnik-theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t)}catch(e){}})()`
         }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   )
 }
