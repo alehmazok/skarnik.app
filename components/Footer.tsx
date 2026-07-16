@@ -170,7 +170,12 @@ function StoreButton({ href, icon, eyebrow, label, store }: {
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a href={href} style={{ fontSize: 14, color: 'var(--soft)', textDecoration: 'none', transition: 'color .2s' }}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ fontSize: 14, color: 'var(--soft)', textDecoration: 'none', transition: 'color .2s' }}
+    >
       {children}
     </a>
   )
