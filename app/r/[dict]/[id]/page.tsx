@@ -2,8 +2,8 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import { splitStressedText } from '@/lib/stress'
 import type { Metadata } from 'next'
-import sanitizeHtml from 'sanitize-html'
 import { isValidDict, buildOgDescription } from '@/lib/dict'
+import { sanitizeTranslation } from '@/lib/translation'
 import { getWord } from '@/lib/words'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -59,14 +59,7 @@ export default async function WordPage({ params }: PageProps) {
     }
   }
 
-  const safeHtml = sanitizeHtml(word.translation, {
-    allowedTags: ['span', 'strong', 'em', 'i', 'b', 'br', 'font', 'a'],
-    allowedAttributes: {
-      'font': ['color', 'size'],
-      'a': ['href'],
-      '*': ['class'],
-    },
-  })
+  const safeHtml = sanitizeTranslation(word.translation)
 
   return (
     <div style={{
