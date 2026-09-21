@@ -44,6 +44,8 @@ jobs:
           build-args: |
             NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN=${{ secrets.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN }}
             NEXT_PUBLIC_POSTHOG_HOST=${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
+            GIT_SHA=${{ github.sha }}
+            BUILD_TIME=${{ github.event.head_commit.timestamp }}
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
@@ -55,3 +57,14 @@ jobs:
             cd /opt/skarnik
             docker compose pull
             docker compose up -d --remove-orphans
+
+      - name: Verify deployed version
+        run: |
+          for i in $(seq 1 12); do
+            live=$(curl -fsS https://skarnik.app/api/version | jq -r .sha || true)
+            echo "attempt $i: live=$live expected=${{ github.sha }}"
+            [ "$live" = "${{ github.sha }}" ] && exit 0
+            sleep 10
+          done
+          echo "::error::Production is not serving ${{ github.sha }}"
+          exit 1
