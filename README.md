@@ -107,3 +107,7 @@ bun run test
 ```
 
 New Supabase query shapes must be verified against the live DB via MCP before writing tests — don't rely solely on mocks for data shape validation.
+
+## License
+
+Source code licensed under the [MIT License](LICENSE). Dictionary content served by this site is © its respective rights holders and is not covered by this license.
