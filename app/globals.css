@@ -1,43 +1,43 @@
 :root {
-  --bg: #faf8f3;
-  --panel: #fffdf8;
-  --ink: #171411;
-  --soft: #5f5a52;
-  --faint: #9c968c;
-  --line: rgba(23, 20, 17, 0.10);
-  --accent: #D4382C;
+  --bg: #ffffff;
+  --panel: #f5f5f6;
+  --ink: #111111;
+  --soft: #555555;
+  --faint: #767676;
+  --line: rgba(17, 17, 17, 0.10);
+  --accent: #E1251B;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #13110e;
-    --panel: #1a1714;
-    --ink: #f2ece1;
-    --soft: #a39c90;
-    --faint: #6f6a61;
-    --line: rgba(242, 236, 225, 0.12);
-    --accent: #E84840;
+    --bg: #0f0f10;
+    --panel: #18181a;
+    --ink: #f5f5f5;
+    --soft: #a6a6ab;
+    --faint: #8a8a90;
+    --line: rgba(245, 245, 245, 0.12);
+    --accent: #FF4438;
   }
 }
 
 [data-theme="dark"] {
-  --bg: #13110e;
-  --panel: #1a1714;
-  --ink: #f2ece1;
-  --soft: #a39c90;
-  --faint: #6f6a61;
-  --line: rgba(242, 236, 225, 0.12);
-  --accent: #E84840;
+  --bg: #0f0f10;
+  --panel: #18181a;
+  --ink: #f5f5f5;
+  --soft: #a6a6ab;
+  --faint: #8a8a90;
+  --line: rgba(245, 245, 245, 0.12);
+  --accent: #FF4438;
 }
 
 [data-theme="light"] {
-  --bg: #faf8f3;
-  --panel: #fffdf8;
-  --ink: #171411;
-  --soft: #5f5a52;
-  --faint: #9c968c;
-  --line: rgba(23, 20, 17, 0.10);
-  --accent: #D4382C;
+  --bg: #ffffff;
+  --panel: #f5f5f6;
+  --ink: #111111;
+  --soft: #555555;
+  --faint: #767676;
+  --line: rgba(17, 17, 17, 0.10);
+  --accent: #E1251B;
 }
 
 *, *::before, *::after {
@@ -76,7 +76,7 @@ body {
 .translation-html font[color="0000A0" i],
 .translation-html font[color="#0000A0" i],
 .translation-html font[color="4863A0" i],
-.translation-html font[color="#4863A0" i] { color: #D4382C; }
+.translation-html font[color="#4863A0" i] { color: #E1251B; }
 
 /* Purple group — light */
 .translation-html font[color="008000" i],
@@ -98,7 +98,7 @@ body {
 [data-theme="dark"] .translation-html font[color="0000A0" i],
 [data-theme="dark"] .translation-html font[color="#0000A0" i],
 [data-theme="dark"] .translation-html font[color="4863A0" i],
-[data-theme="dark"] .translation-html font[color="#4863A0" i] { color: #E84840; }
+[data-theme="dark"] .translation-html font[color="#4863A0" i] { color: #FF4438; }
 
 [data-theme="dark"] .translation-html font[color="FFFFFF" i],
 [data-theme="dark"] .translation-html font[color="#FFFFFF" i] { color: #1C1C1E; }
@@ -124,7 +124,7 @@ body {
   :root:not([data-theme="light"]) .translation-html font[color="0000A0" i],
   :root:not([data-theme="light"]) .translation-html font[color="#0000A0" i],
   :root:not([data-theme="light"]) .translation-html font[color="4863A0" i],
-  :root:not([data-theme="light"]) .translation-html font[color="#4863A0" i] { color: #E84840; }
+  :root:not([data-theme="light"]) .translation-html font[color="#4863A0" i] { color: #FF4438; }
 
   :root:not([data-theme="light"]) .translation-html font[color="FFFFFF" i],
   :root:not([data-theme="light"]) .translation-html font[color="#FFFFFF" i] { color: #1C1C1E; }

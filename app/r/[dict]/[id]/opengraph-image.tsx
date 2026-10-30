@@ -47,7 +47,7 @@ export default async function OGImage({ params }: PageProps) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#1c1c1e',
+          background: '#0f0f10',
           padding: '60px 80px',
           position: 'relative',
         }}
@@ -59,7 +59,7 @@ export default async function OGImage({ params }: PageProps) {
             left: 0,
             width: '100%',
             height: 6,
-            background: '#c0392b',
+            background: '#E1251B',
             display: 'flex',
           }}
         />
@@ -85,7 +85,7 @@ export default async function OGImage({ params }: PageProps) {
             fontSize,
             lineHeight: 1,
             letterSpacing: '-0.03em',
-            color: '#f5f0eb',
+            color: '#ffffff',
             textAlign: 'center',
             maxWidth: '100%',
             display: 'flex',
