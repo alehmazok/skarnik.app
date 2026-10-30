@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { isValidDict, buildOgDescription } from '@/lib/dict'
 import { sanitizeTranslation } from '@/lib/translation'
 import { getWord } from '@/lib/words'
+import { headingFontSize, headwordLang } from '@/lib/heading'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import WordViewTracker from '@/components/WordViewTracker'
@@ -85,11 +86,12 @@ export default async function WordPage({ params }: PageProps) {
           <span>{dictLabel(dict)}</span>
         </div>
 
-        <h1 style={{
+        <h1 lang={headwordLang(dict)} style={{
           margin: 0, fontWeight: 700,
           fontSize: headingFontSize(word.text),
           lineHeight: .98, letterSpacing: '-.035em',
-          color: 'var(--ink)', maxWidth: '100%', overflowWrap: 'break-word',
+          color: 'var(--ink)', maxWidth: '100%',
+          hyphens: 'auto', WebkitHyphens: 'auto', overflowWrap: 'break-word',
         }}>
           {word.stress ? renderStressedWord(word.stress) : word.text}
         </h1>
@@ -130,13 +132,6 @@ function renderStressedWord(text: string): React.ReactNode {
       ))}
     </>
   )
-}
-
-function headingFontSize(text: string): string {
-  const len = text.length
-  if (len > 40) return 'clamp(1.9rem,9.5vw,2.8rem)'
-  if (len > 20) return 'clamp(1.9rem,9.5vw,4.5rem)'
-  return 'clamp(1.9rem,9.5vw,7rem)'
 }
 
 function dictLabel(dict: string): string {
