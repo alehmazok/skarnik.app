@@ -1,18 +1,21 @@
 import type { Metadata } from 'next'
-import { Schibsted_Grotesk, Spline_Sans_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 import CookieConsent from '@/components/CookieConsent'
 import './globals.css'
 
-const grotesk = Schibsted_Grotesk({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+// Self-hosted (latin subset, variable weight) so the Docker build doesn't
+// depend on fonts.googleapis.com, whose dynamic `/l/font?kit=` URLs crash
+// next/font/google.
+const grotesk = localFont({
+  src: './fonts/SchibstedGrotesk-latin.woff2',
+  weight: '400 700',
   variable: '--font-grotesk',
   display: 'swap',
 })
 
-const mono = Spline_Sans_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+const mono = localFont({
+  src: './fonts/SplineSansMono-latin.woff2',
+  weight: '400 500',
   variable: '--font-mono',
   display: 'swap',
 })
