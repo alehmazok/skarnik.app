@@ -29,6 +29,7 @@ bun run test:watch   # vitest watch
 |---|---|---|
 | `/` | Static | Landing page |
 | `/r/[dict]/[id]` | ISR `revalidate: 86400` | Shared word page |
+| `/.well-known/assetlinks.json` | Static route handler | Android App Links verification (`lib/assetlinks.ts`, Play app signing key SHA-256) |
 
 Unknown `dict` values → 404 immediately (validated against enum).
 
