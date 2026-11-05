@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Link from 'next/link'
 import posthog from 'posthog-js'
 
 export default function Footer() {
@@ -76,6 +77,12 @@ export default function Footer() {
           </span>
           <nav style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px,3vw,30px)' }}>
             <FooterButton onClick={openAbout}>Пра Скарнік</FooterButton>
+            <Link
+              href="/privacy"
+              style={{ fontSize: 14, color: 'var(--soft)', textDecoration: 'none', transition: 'color .2s' }}
+            >
+              Прыватнасць
+            </Link>
             <FooterLink href="https://starnik.by">Starnik.by</FooterLink>
             <FooterLink href="https://drukarnik.app">Drukarnik.app</FooterLink>
           </nav>
