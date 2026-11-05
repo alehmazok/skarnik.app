@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import Headword from '@/components/Headword'
 
 export const metadata: Metadata = {
   title: 'Skarnik.app — Беларускі слоўнік',
@@ -37,14 +38,12 @@ export default function LandingPage() {
           <span>пераклад на рускую мову</span>
         </div>
 
-        <h1 style={{
-          margin: 0, fontWeight: 700,
-          fontSize: 'clamp(1.9rem,9.5vw,7rem)',
-          lineHeight: .98, letterSpacing: '-.035em',
-          color: 'var(--ink)', maxWidth: '100%', overflowWrap: 'break-word',
-        }}>
-          добразычл<span style={{ color: 'var(--accent)' }}>і́</span>васць
-        </h1>
+        <Headword
+          text="добразычлівасць"
+          stress="добразычлі́васць"
+          lang="be"
+          fontSize="clamp(1.9rem,9.5vw,7rem)"
+        />
 
         <div style={{
           margin: 'clamp(26px,5vh,44px) auto 0',
