@@ -22,6 +22,11 @@ describe('Footer', () => {
     expect(screen.getByRole('button', { name: 'Пра Скарнік' })).toBeInTheDocument()
   })
 
+  it('links to the privacy policy', () => {
+    render(<Footer />)
+    expect(screen.getByRole('link', { name: 'Прыватнасць' })).toHaveAttribute('href', '/privacy')
+  })
+
   it('modal contains correct text', () => {
     render(<Footer />)
     expect(screen.getByText(/электронны руска-беларускі слоўнік/)).toBeInTheDocument()
