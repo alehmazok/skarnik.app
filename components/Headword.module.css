@@ -1,0 +1,66 @@
+.headword {
+  margin: 0;
+  max-width: 100%;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+  animation: headword-settle 640ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* The stressed vowel (with its acute) falls from above, lands with a small
+   bounce and turns red on impact. `top` is used because transforms do not
+   apply to inline boxes, and an inline span keeps hyphenation and kerning. */
+.stress {
+  position: relative;
+  color: var(--accent);
+  animation: stress-drop 700ms both;
+  animation-delay: calc(420ms + var(--i, 0) * 160ms);
+}
+
+@keyframes headword-settle {
+  from {
+    transform: translateY(0.08em);
+    filter: blur(0.05em);
+  }
+  to {
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes stress-drop {
+  0% {
+    top: -0.7em;
+    opacity: 0;
+    color: var(--ink);
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  20% {
+    opacity: 1;
+  }
+  55% {
+    top: 0;
+    color: var(--ink);
+    animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1);
+  }
+  70% {
+    top: 0.06em;
+    color: var(--accent);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  100% {
+    top: 0;
+    color: var(--accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headword,
+  .stress {
+    animation: none;
+  }
+}

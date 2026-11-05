@@ -1,6 +1,4 @@
-import React from 'react'
 import { notFound } from 'next/navigation'
-import { splitStressedText } from '@/lib/stress'
 import type { Metadata } from 'next'
 import { isValidDict, buildOgDescription } from '@/lib/dict'
 import { sanitizeTranslation } from '@/lib/translation'
@@ -8,6 +6,7 @@ import { getWord } from '@/lib/words'
 import { headingFontSize, headwordLang } from '@/lib/heading'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import Headword from '@/components/Headword'
 import WordViewTracker from '@/components/WordViewTracker'
 
 export const revalidate = 86400
@@ -86,15 +85,12 @@ export default async function WordPage({ params }: PageProps) {
           <span>{dictLabel(dict)}</span>
         </div>
 
-        <h1 lang={headwordLang(dict)} style={{
-          margin: 0, fontWeight: 700,
-          fontSize: headingFontSize(word.text),
-          lineHeight: .98, letterSpacing: '-.035em',
-          color: 'var(--ink)', maxWidth: '100%',
-          hyphens: 'auto', WebkitHyphens: 'auto', overflowWrap: 'break-word',
-        }}>
-          {word.stress ? renderStressedWord(word.stress) : word.text}
-        </h1>
+        <Headword
+          text={word.text}
+          stress={word.stress}
+          lang={headwordLang(dict)}
+          fontSize={headingFontSize(word.text)}
+        />
 
         <div
           className="translation-html"
@@ -111,26 +107,6 @@ export default async function WordPage({ params }: PageProps) {
       <Footer />
       <WordViewTracker dict={dict} wordId={externalId} />
     </div>
-  )
-}
-
-function renderStressedWord(text: string): React.ReactNode {
-  const segments = splitStressedText(text)
-  return (
-    <>
-      {segments.map((seg, i) => (
-        <React.Fragment key={i}>
-          {i > 0 && ' | '}
-          {typeof seg === 'string' ? seg : (
-            <>
-              {seg.before}
-              <span style={{ color: 'var(--accent)' }}>{seg.stressed}</span>
-              {seg.after}
-            </>
-          )}
-        </React.Fragment>
-      ))}
-    </>
   )
 }
 
