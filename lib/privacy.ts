@@ -34,7 +34,7 @@ export interface PrivacyPolicy {
 }
 
 export const PRIVACY_CONTACT_EMAIL = 'skarnikapp@gmail.com'
-export const PRIVACY_UPDATED = '2026-11-05'
+export const PRIVACY_UPDATED = '2026-11-07'
 
 const mail: PolicyLink = { text: PRIVACY_CONTACT_EMAIL, href: `mailto:${PRIVACY_CONTACT_EMAIL}` }
 
@@ -52,7 +52,7 @@ const be: PrivacyPolicy = {
   description: 'Якія даныя збіраюць праграмы Скарнік для Android і iOS і сайт skarnik.app, і навошта.',
   updatedLabel: 'Абноўлена',
   updated: PRIVACY_UPDATED,
-  updatedText: '5 лістапада 2026',
+  updatedText: '7 лістапада 2026',
   otherLanguage: { text: 'English', href: '/privacy/en' },
   sections: [
     {
@@ -80,7 +80,7 @@ const be: PrivacyPolicy = {
             'Гісторыя пошуку (словы, якія вы адкрывалі) і закладкі.',
             'Слоўнікі, спампаваныя для працы без інтэрнэту.',
             'Налады: тэма, колеры, адказ на пытанне пра статыстыку, лічыльнік для запыту адзнакі.',
-            'Віджэт «Слова дня» помніць словы, якія ўжо паказваў, каб не паўтараць іх 30 дзён.',
+            'Віджэт «Слова дня» на Android помніць словы, якія ўжо паказваў, каб не паўтараць іх 30 дзён.',
           ],
         },
         { p: 'Гэтыя даныя нікуды не адпраўляюцца. Гісторыю можна ачысціць у наладах, закладкі выдаляюцца ў спісе закладак, спампаваныя слоўнікі выдаляюцца ў наладах. Усё астатняе знікае, калі выдаліць праграму.' },
@@ -90,17 +90,16 @@ const be: PrivacyPolicy = {
       id: 'content',
       heading: 'Запыты перакладаў',
       blocks: [
-        { p: 'Каб паказаць пераклад, праграма запытвае слова з нашых сервераў або з сэрвісаў, адкуль бярэцца змест слоўніка:' },
+        { p: 'Калі слоўнік спампаваны, праграма бярэ пераклад з прылады і нічога не адпраўляе. Інакш яна запытвае слова па чарзе:' },
         {
           ul: [
-            'сервер Скарніка (skarnik.play.of.by);',
-            ['база слоўніка ў ', { text: 'Supabase', href: links.supabase }, ' (таксама для спампоўкі слоўнікаў);'],
-            'starnik.by, калі вы адкрываеце націск слова;',
-            'skarnik.by (толькі iOS), калі слова не знайшлося ў іншых месцах.',
+            ['базу слоўніка ў ', { text: 'Supabase', href: links.supabase }, ' (адтуль жа спампоўваюцца слоўнікі);'],
+            'сервер Скарніка (skarnik.play.of.by), калі слова не знайшлося ў Supabase.',
           ],
         },
+        { p: 'Калі вы адкрываеце націск слова, праграма запытвае яго на starnik.by, а калі там няма, на серверы Скарніка. Віджэт «Слова дня» бярэ выпадковае слова з тых жа крыніц.' },
         { p: 'Такі запыт утрымлівае толькі слова або яго нумар у слоўніку. Як і любы вэб-сервер, гэтыя серверы бачаць IP-адрас прылады і могуць часова захоўваць яго ў тэхнічных журналах. Мы не звязваем гэтыя запыты з вамі.' },
-        { p: 'Каб пераклады адкрываліся хутчэй, праграма захоўвае на прыладзе кэш адказаў сервера (на Android 24 гадзіны па змоўчанні).' },
+        { p: 'Каб пераклады адкрываліся хутчэй, праграма захоўвае на прыладзе кэш адказаў сервераў (на Android 24 гадзіны па змоўчанні).' },
       ],
     },
     {
@@ -108,21 +107,16 @@ const be: PrivacyPolicy = {
       heading: 'Статыстыка выкарыстання (Firebase Analytics)',
       blocks: [
         { p: ['Пры першым запуску праграма пытаецца, ці можна збіраць ананімную статыстыку. Пакуль вы не адказалі «так», статыстыка не адпраўляецца. Адказ можна змяніць у наладах («Аналітыка выкарыстання»). Статыстыку збірае ', { text: 'Google Firebase Analytics', href: links.firebase }, '.'] },
-        { p: 'Калі вы пагадзіліся, адпраўляюцца падзеі: запуск праграмы, пошук (тэкст запыту і колькасць вынікаў), адкрыты пераклад (слова і слоўнік), закладкі, «Падзяліцца», націск, спампоўка слоўніка, адкрыццё слова з віджэта. Firebase дадае да іх версію праграмы, мадэль прылады, версію сістэмы, мову, прыблізны рэгіён (па IP-адрасе, сам адрас не захоўваецца) і выпадковы ідэнтыфікатар усталявання праграмы.' },
-        { p: 'Мы не збіраем рэкламны ідэнтыфікатар, імя, электронную пошту, кантакты ці месцазнаходжанне. На Android выключаны аўтаматычны ўлік экранаў. Статыстыка патрэбна, каб разумець, якія словы шукаюць і чаго не хапае ў слоўніку. Firebase захоўвае падзеі не даўжэй за 14 месяцаў.' },
+        { p: 'Калі вы пагадзіліся, адпраўляюцца падзеі: запуск праграмы, пошук (тэкст запыту, колькасць вынікаў і выбраны вынік), адкрыты пераклад (слова, слоўнік і адкуль ён узяты), слова, адкрытае ў спісе слоўніка, «Падзяліцца», націск, спампоўка слоўніка, на Android даданне ў закладкі, на iOS адкрыццё слова з віджэта і пераход на starnik.by або drukarnik.app. Firebase дадае да іх версію праграмы, мадэль прылады, версію сістэмы, мову, прыблізны рэгіён (па IP-адрасе, сам адрас не захоўваецца) і выпадковы ідэнтыфікатар усталявання праграмы, а на iOS яшчэ ідэнтыфікатар для распрацоўшчыка (IDFV), які Apple дае кожнай праграме асобна.' },
+        { p: 'Мы не збіраем рэкламны ідэнтыфікатар і не просім дазволу на адсочванне, не збіраем імя, электронную пошту, кантакты ці месцазнаходжанне. На Android выключаны аўтаматычны ўлік экранаў. Статыстыка патрэбна, каб разумець, якія словы шукаюць і чаго не хапае ў слоўніку. Firebase захоўвае падзеі не даўжэй за 14 месяцаў.' },
       ],
     },
     {
       id: 'crashes',
       heading: 'Справаздачы пра збоі',
       blocks: [
-        { p: 'Калі праграма падае або сутыкаецца з унутранай памылкай, яна адпраўляе справаздачу: тып памылкі і стэк выклікаў, версію праграмы, мадэль прылады і версію сістэмы. Гэта патрэбна, каб знаходзіць і выпраўляць памылкі, таму справаздачы адпраўляюцца незалежна ад згоды на статыстыку.' },
-        {
-          ul: [
-            ['Android: ', { text: 'Sentry', href: links.sentry }, '. Справаздачы не ўтрымліваюць IP-адраса, ідэнтыфікатара карыстальніка, здымкаў экрана, тэксту пошуку ці слоў. Захоўваюцца да 90 дзён.'],
-            ['iOS: ', { text: 'Google Firebase Crashlytics', href: links.firebase }, '. Справаздача ўтрымлівае выпадковы ідэнтыфікатар усталявання праграмы. Захоўваюцца да 90 дзён.'],
-          ],
-        },
+        { p: ['Калі праграма падае, завісае або сутыкаецца з унутранай памылкай, яна адпраўляе справаздачу ў ', { text: 'Sentry', href: links.sentry }, ' (і на Android, і на iOS): тып памылкі і стэк выклікаў, версію праграмы, мадэль прылады і версію сістэмы. Гэта патрэбна, каб знаходзіць і выпраўляць памылкі, таму справаздачы адпраўляюцца незалежна ад згоды на статыстыку.'] },
+        { p: 'Справаздачы не ўтрымліваюць IP-адраса, ідэнтыфікатара карыстальніка, здымкаў экрана, тэксту пошуку, слоў ці адрасоў запытаў. Праграма не адпраўляе ў Sentry звестак пра хуткадзейнасць і запісаў сеансаў. Справаздачы захоўваюцца да 90 дзён.' },
       ],
     },
     {
@@ -139,7 +133,7 @@ const be: PrivacyPolicy = {
         {
           ul: [
             'Адзнака праграмы. Пасля некалькіх перакладаў праграма адзін раз прапануе адзначыць яе праз Google Play або App Store. Гэта акно паказвае сама крама, і мы не бачым, ці адзначылі вы праграму.',
-            'Ліст распрацоўшчыкам. Кнопка адкрывае вашу паштовую праграму з гатовым лістом. У ім ужо ёсць версія праграмы, а на Android яшчэ мадэль прылады і версія сістэмы, у паведамленні пра памылку на iOS — слова і спасылка на яго. Вы бачыце ліст перад адпраўкай і можаце яго змяніць. Мы выкарыстоўваем ліст і ваш адрас толькі каб адказаць.',
+            'Ліст распрацоўшчыку. Кнопка адкрывае вашу паштовую праграму з гатовым лістом. На Android у ім ужо ёсць версія праграмы, мадэль прылады і версія сістэмы, а ў паведамленні пра памылку ў слове на iOS — слова, спасылка на яго і тып памылкі. Вы бачыце ліст перад адпраўкай і можаце яго змяніць. Мы выкарыстоўваем ліст і ваш адрас толькі каб адказаць.',
             'Спасылкі на іншыя сайты (starnik.by, drukarnik.app, крамы праграм) адкрываюцца ў браўзеры, і на іх дзейнічаюць правілы гэтых сайтаў.',
             'Праграма не просіць доступу да кантактаў, камеры, мікрафона, фота ці месцазнаходжання.',
           ],
@@ -192,7 +186,7 @@ const en: PrivacyPolicy = {
   description: 'What the Skarnik apps for Android and iOS and the skarnik.app website collect, and why.',
   updatedLabel: 'Last updated',
   updated: PRIVACY_UPDATED,
-  updatedText: 'November 5, 2026',
+  updatedText: 'November 7, 2026',
   otherLanguage: { text: 'Беларуская', href: '/privacy' },
   sections: [
     {
@@ -220,7 +214,7 @@ const en: PrivacyPolicy = {
             'Search history (words you opened) and bookmarks.',
             'Dictionaries downloaded for offline use.',
             'Settings: theme, colours, your answer about statistics, a counter for the rating prompt.',
-            'The Word of the Day widget remembers the words it showed so it does not repeat them for 30 days.',
+            'On Android, the Word of the Day widget remembers the words it showed so it does not repeat them for 30 days.',
           ],
         },
         { p: 'None of this is sent anywhere. You can clear history in Settings, remove bookmarks from the bookmarks list and delete downloaded dictionaries in Settings. Everything else is removed when you uninstall the app.' },
@@ -230,15 +224,14 @@ const en: PrivacyPolicy = {
       id: 'content',
       heading: 'Translation requests',
       blocks: [
-        { p: 'To show a translation, the app requests the word from our servers or from the services the dictionary content comes from:' },
+        { p: 'If a dictionary is downloaded, the app takes the translation from the device and sends nothing. Otherwise it asks for the word in this order:' },
         {
           ul: [
-            'the Skarnik server (skarnik.play.of.by);',
-            ['the dictionary database on ', { text: 'Supabase', href: links.supabase }, ' (also used to download dictionaries);'],
-            'starnik.by, when you open a word’s stress;',
-            'skarnik.by (iOS only), when the word is not found elsewhere.',
+            ['the dictionary database on ', { text: 'Supabase', href: links.supabase }, ' (dictionaries are downloaded from there too);'],
+            'the Skarnik server (skarnik.play.of.by), if the word is not found on Supabase.',
           ],
         },
+        { p: 'When you open a word’s stress, the app asks starnik.by, and the Skarnik server if starnik.by has no match. The Word of the Day widget takes a random word from the same sources.' },
         { p: 'Such a request contains only the word or its number in the dictionary. Like any web server, these servers see your device’s IP address and may keep it briefly in technical logs. We do not link these requests to you.' },
         { p: 'To open translations faster, the app keeps a cache of server responses on the device (24 hours by default on Android).' },
       ],
@@ -248,21 +241,16 @@ const en: PrivacyPolicy = {
       heading: 'Usage statistics (Firebase Analytics)',
       blocks: [
         { p: ['On first launch the app asks whether it may collect anonymous statistics. Nothing is sent until you answer “yes”. You can change your answer in Settings (“Usage analytics”). Statistics are collected by ', { text: 'Google Firebase Analytics', href: links.firebase }, '.'] },
-        { p: 'If you agree, the app sends events: app opened, search (query text and number of results), translation opened (word and dictionary), bookmarks, share, stress, dictionary download, word opened from the widget. Firebase adds the app version, device model, OS version, language, approximate region (derived from the IP address, which is not stored) and a random app-instance identifier.' },
-        { p: 'We do not collect the advertising identifier, name, email, contacts or location. Automatic screen tracking is off on Android. We use the statistics to understand which words people look for and what the dictionary is missing. Firebase keeps events for no longer than 14 months.' },
+        { p: 'If you agree, the app sends events: app opened, search (query text, number of results and the result you picked), translation opened (word, dictionary and where it came from), word opened from the dictionary list, share, stress, dictionary download, on Android adding a bookmark, on iOS a word opened from the widget and opening starnik.by or drukarnik.app. Firebase adds the app version, device model, OS version, language, approximate region (derived from the IP address, which is not stored) and a random app-instance identifier, and on iOS also the identifier for vendor (IDFV), which Apple gives each developer’s apps separately.' },
+        { p: 'We do not collect the advertising identifier or ask for tracking permission, and do not collect your name, email, contacts or location. Automatic screen tracking is off on Android. We use the statistics to understand which words people look for and what the dictionary is missing. Firebase keeps events for no longer than 14 months.' },
       ],
     },
     {
       id: 'crashes',
       heading: 'Crash reports',
       blocks: [
-        { p: 'When the app crashes or hits an internal error, it sends a report: the error type and stack trace, app version, device model and OS version. We need this to find and fix bugs, so reports are sent regardless of the statistics consent.' },
-        {
-          ul: [
-            ['Android: ', { text: 'Sentry', href: links.sentry }, '. Reports contain no IP address, user identifier, screenshots, search text or words. Kept for up to 90 days.'],
-            ['iOS: ', { text: 'Google Firebase Crashlytics', href: links.firebase }, '. A report includes a random app-installation identifier. Kept for up to 90 days.'],
-          ],
-        },
+        { p: ['When the app crashes, hangs or hits an internal error, it sends a report to ', { text: 'Sentry', href: links.sentry }, ' (on both Android and iOS): the error type and stack trace, app version, device model and OS version. We need this to find and fix bugs, so reports are sent regardless of the statistics consent.'] },
+        { p: 'Reports contain no IP address, user identifier, screenshots, search text, words or request addresses. The app sends no performance data or session recordings to Sentry. Reports are kept for up to 90 days.' },
       ],
     },
     {
@@ -279,7 +267,7 @@ const en: PrivacyPolicy = {
         {
           ul: [
             'Rating. After several translations the app asks once to rate it through Google Play or the App Store. The store shows that dialog, and we cannot see whether you rated the app.',
-            'Email to the developers. The button opens your mail app with a prepared email. It includes the app version, on Android also the device model and OS version, and in an iOS error report the word and its link. You see the email before sending and can edit it. We use the email and your address only to reply.',
+            'Email to the developer. The button opens your mail app with a prepared email. On Android it includes the app version, device model and OS version; an iOS report about a word includes the word, its link and the kind of mistake. You see the email before sending and can edit it. We use the email and your address only to reply.',
             'Links to other sites (starnik.by, drukarnik.app, app stores) open in your browser, and those sites’ own policies apply.',
             'The app does not ask for access to contacts, camera, microphone, photos or location.',
           ],
