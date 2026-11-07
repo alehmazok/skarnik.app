@@ -51,6 +51,11 @@ describe('PrivacyPolicy', () => {
     expect(policy).not.toMatch(/Crashlytics/)
   })
 
+  it('mentions the install source sent with analytics', () => {
+    expect(text(privacyPolicies.be)).toMatch(/краму, з якой яна ўсталявана/)
+    expect(text(privacyPolicies.en)).toMatch(/the store the app was installed from/)
+  })
+
   it.each(['be', 'en'] as const)('%s policy lists only the translation sources the apps use', lang => {
     const policy = text(privacyPolicies[lang])
     expect(policy).toMatch(/Supabase/)
