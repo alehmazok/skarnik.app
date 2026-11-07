@@ -45,9 +45,17 @@ describe('PrivacyPolicy', () => {
     }
   })
 
-  it('names the crash reporter of each platform', () => {
-    const en = text(privacyPolicies.en)
-    expect(en).toMatch(/Android: Sentry/)
-    expect(en).toMatch(/iOS: Google Firebase Crashlytics/)
+  it.each(['be', 'en'] as const)('%s policy names Sentry as the only crash reporter', lang => {
+    const policy = text(privacyPolicies[lang])
+    expect(policy).toMatch(/Sentry/)
+    expect(policy).not.toMatch(/Crashlytics/)
+  })
+
+  it.each(['be', 'en'] as const)('%s policy lists only the translation sources the apps use', lang => {
+    const policy = text(privacyPolicies[lang])
+    expect(policy).toMatch(/Supabase/)
+    expect(policy).toMatch(/skarnik\.play\.of\.by/)
+    // The skarnik.by page scrape is gone from both apps (offline dictionary → Supabase → admin API).
+    expect(policy).not.toMatch(/(^|[^.\w])skarnik\.by/)
   })
 })
