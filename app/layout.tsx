@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'Skarnik.app',
-    locale: 'be',
+    locale: 'be_BY',
   },
   twitter: {
     card: 'summary_large_image',

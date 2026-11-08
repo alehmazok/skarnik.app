@@ -2,13 +2,19 @@ import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Headword from '@/components/Headword'
+import JsonLd from '@/components/JsonLd'
+import { siteJsonLd } from '@/lib/seo'
+
+const description =
+  'Беларуска-рускі, руска-беларускі і тлумачальны слоўнік беларускай мовы з націскамі. Праграма для iOS і Android.'
 
 export const metadata: Metadata = {
   title: 'Skarnik.app — Беларускі слоўнік',
-  description: 'Беларускі слоўнік для iOS і Android',
+  description,
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'Skarnik.app',
-    description: 'Беларускі слоўнік для iOS і Android',
+    description,
     url: '/',
   },
 }
@@ -74,6 +80,7 @@ export default function LandingPage() {
       </main>
 
       <Footer />
+      <JsonLd data={siteJsonLd()} />
     </div>
   )
 }

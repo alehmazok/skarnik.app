@@ -1,6 +1,7 @@
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import type { Metadata } from 'next'
-import { isValidDict, buildOgDescription } from '@/lib/dict'
+import { isValidDict } from '@/lib/dict'
+import { redirectTarget, wordDescription, wordJsonLd, wordPath, wordTitle, SITE_NAME } from '@/lib/seo'
 import { sanitizeTranslation } from '@/lib/translation'
 import { getWord } from '@/lib/words'
 import { headingFontSize, headwordLang } from '@/lib/heading'
@@ -8,8 +9,16 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Headword from '@/components/Headword'
 import WordViewTracker from '@/components/WordViewTracker'
+import JsonLd from '@/components/JsonLd'
 
 export const revalidate = 86400
+
+// No paths at build time (the build has no Supabase access): each word is
+// rendered on its first visit and then served from the ISR cache for a day.
+// Without this, a dynamic segment is rendered on every request.
+export function generateStaticParams() {
+  return []
+}
 
 interface PageProps {
   params: Promise<{ dict: string; id: string }>
@@ -22,15 +31,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!Number.isInteger(externalId) || externalId <= 0) return {}
   const word = await getWord(dict, externalId)
   if (!word) return {}
-  const displayTitle = `${word.stress ?? word.text} — Skarnik.app`
-  const description = buildOgDescription(word.text, dict)
+  const target = redirectTarget(word.redirect_to)
+  const canonical = wordPath(dict, target ?? externalId)
+  const description = wordDescription(word, dict)
+  // og:title keeps the stress mark: it shows in link previews when a word is shared.
+  const ogTitle = `${word.stress ?? word.text} — ${SITE_NAME}`
   return {
-    title: displayTitle,
+    title: wordTitle(word.text, dict),
     description,
+    alternates: { canonical },
     openGraph: {
-      title: displayTitle,
+      title: ogTitle,
       description,
-      url: `/r/${dict}/${id}`,
+      url: canonical,
       type: 'article',
     },
     twitter: {
@@ -38,7 +51,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
   }
 }
-
 
 export default async function WordPage({ params }: PageProps) {
   const { dict, id } = await params
@@ -51,13 +63,11 @@ export default async function WordPage({ params }: PageProps) {
   const word = await getWord(dict, externalId)
   if (!word) notFound()
 
-  if (word.redirect_to) {
-    const redirectId = Number(word.redirect_to)
-    if (Number.isInteger(redirectId) && redirectId > 0) {
-      const { redirect } = await import('next/navigation')
-      redirect(`/r/${dict}/${redirectId}`)
-    }
-  }
+  // Aliases and non-canonical ids (`/r/belrus/027890`) move permanently to
+  // one URL per word, so search engines index it once.
+  const target = redirectTarget(word.redirect_to)
+  if (target) permanentRedirect(wordPath(dict, target))
+  if (id !== String(externalId)) permanentRedirect(wordPath(dict, externalId))
 
   const safeHtml = sanitizeTranslation(word.translation)
 
@@ -106,6 +116,7 @@ export default async function WordPage({ params }: PageProps) {
 
       <Footer />
       <WordViewTracker dict={dict} wordId={externalId} />
+      <JsonLd data={wordJsonLd(word, dict, externalId)} />
     </div>
   )
 }
