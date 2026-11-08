@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { isValidDict, DICT_DIRECTIONS, DICT_LABELS, buildOgDescription } from '../dict'
+import { isValidDict, DICT_DIRECTIONS, DICT_LABELS } from '../dict'
 
 describe('isValidDict', () => {
   it('accepts valid directions', () => {
@@ -36,16 +36,3 @@ describe('DICT_LABELS', () => {
   })
 })
 
-describe('buildOgDescription', () => {
-  it('wraps word in quotes and appends dict label', () => {
-    expect(buildOgDescription('добразычлівасць', 'belrus'))
-      .toBe('"добразычлівасць" — Беларуска-рускі слоўнік')
-  })
-
-  it('uses correct label per direction', () => {
-    expect(buildOgDescription('слова', 'rusbel'))
-      .toBe('"слова" — Руска-беларускі слоўнік')
-    expect(buildOgDescription('слова', 'tsbm'))
-      .toBe('"слова" — Тлумачальны слоўнік')
-  })
-})

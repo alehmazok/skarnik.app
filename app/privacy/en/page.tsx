@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: `${policy.title} — Skarnik.app`,
     description: policy.description,
     url: '/privacy/en',
-    locale: 'en',
+    locale: 'en_US',
   },
 }
 

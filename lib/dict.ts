@@ -8,10 +8,6 @@ export const DICT_LABELS: Record<DictDirection, string> = {
   tsbm: 'Тлумачальны слоўнік',
 }
 
-export function buildOgDescription(text: string, direction: DictDirection): string {
-  return `"${text}" — ${DICT_LABELS[direction]}`
-}
-
 export function isValidDict(dict: string): dict is DictDirection {
   return (DICT_DIRECTIONS as readonly string[]).includes(dict)
 }

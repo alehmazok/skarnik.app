@@ -29,9 +29,24 @@ bun run test:watch   # vitest watch
 |---|---|---|
 | `/` | Static | Landing page |
 | `/r/[dict]/[id]` | ISR `revalidate: 86400` | Shared word page |
+| `/robots.txt` | Static (`app/robots.ts`) | Allows all, disallows `/api/` and `/ingest/`, points to the sitemap |
+| `/sitemap.xml` | Dynamic route handler | Sitemap index: `/sitemaps/pages.xml` + one file per 50k `external_id`s per dictionary (`lib/sitemap.ts`) |
+| `/sitemaps/[dict]/[n].xml` | ISR `revalidate: 86400` | Word URLs of one id span, aliases (`redirect_to`) left out |
 | `/.well-known/assetlinks.json` | Static route handler | Android App Links verification (`lib/assetlinks.ts`, Play app signing key SHA-256) |
 
 Unknown `dict` values → 404 immediately (validated against enum).
+
+Routes that read Supabase must not render at build time (the Docker build has no Supabase env): use
+`generateStaticParams() { return [] }` + `revalidate` for ISR, or `force-dynamic`. Without
+`generateStaticParams`, a dynamic segment is rendered on every request despite `revalidate`.
+
+## SEO
+
+- `lib/seo.ts` holds titles, descriptions, canonical paths and JSON-LD. Every page sets `alternates.canonical`.
+- Word pages: `<title>` uses the plain headword (no stress mark, so it matches searches); `og:title` keeps the
+  stress for share previews. Description = dictionary + plain-text start of the translation (≤160 chars).
+- Aliases and non-canonical ids (`/r/belrus/027890`) redirect with `permanentRedirect` (308).
+- Structured data: `DefinedTerm` on word pages, `WebSite` on the landing page, via `components/JsonLd.tsx`.
 
 ## Dictionary directions
 
@@ -118,6 +133,8 @@ lib/
   supabase.ts         # createServerClient() + WordRecord type
   words.ts            # getWord(dict, externalId) → WordRecord | null
   dict.ts             # DictDirection type + isValidDict()
+  seo.ts              # titles, descriptions, canonical paths, JSON-LD
+  sitemap.ts          # sitemap XML + Supabase queries for word sitemaps
   stress.ts           # splitAtStress() → StressParts | null — stressed letter highlighting
   __tests__/
     dict.test.ts
