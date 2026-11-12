@@ -27,6 +27,11 @@ describe('Footer', () => {
     expect(screen.getByRole('link', { name: 'Прыватнасць' })).toHaveAttribute('href', '/privacy')
   })
 
+  it('lets the footer links wrap on narrow screens', () => {
+    render(<Footer />)
+    expect(screen.getByRole('navigation')).toHaveStyle({ flexWrap: 'wrap' })
+  })
+
   it('modal contains correct text', () => {
     render(<Footer />)
     expect(screen.getByText(/электронны руска-беларускі слоўнік/)).toBeInTheDocument()
