@@ -38,6 +38,9 @@ bun run test:watch   # vitest watch
 | `/api/search?q=&dict=` | Dynamic | Search over the in-memory index (`lib/search/`), same algorithm as the apps |
 | `/api/word/[dict]/[id]` | Dynamic | One word for the search app: Supabase, then the admin API |
 | `/offline-data/index/[dict]` | Dynamic | Offline search index for the installed app: `manifest` (JSON hashes) or one dictionary's gzipped `id\ttext` list |
+| `/offline-data/manifest.json` | Dynamic | Offline dictionaries: every shard with words, gzip bytes and hash (#24) |
+| `/offline-data/[dict]/[n].ndjson` | Dynamic | One shard: words with `external_id` in `[n·10000, (n+1)·10000)`, sanitized html, gzipped |
+| `/api/revalidate-offline` | Dynamic | `POST`, `Authorization: Bearer $OFFLINE_REVALIDATE_SECRET`, `{dict?, ids?}`: rebuild those shards (404 while the secret is unset) |
 | `/~offline` | Static | Fallback the service worker shows for pages not saved offline |
 | `/sw.js` | Generated at build | Serwist service worker from `app/sw.ts` (see PWA below) |
 
@@ -93,6 +96,22 @@ Routes that read Supabase must not render at build time (the Docker build has no
 - `lib/offline/search.worker.ts` runs the same `SearchEngine` in a Web Worker; `components/SearchApp.tsx` uses it
   (no debounce) whenever all three dictionaries are stored, online or not, and falls back to `/api/search` otherwise.
 - Never `push(...words)` an index-sized array: Chrome overflows the stack at ~100k arguments.
+
+## Offline dictionaries (#24)
+
+- Server: `lib/offline/server-dictionaries.ts` reads all of `main_word` (1,000-id requests, 4 at a time), sanitizes
+  each translation, and keeps the gzipped shards in memory (~21 MB; tsbm 12.8 MB, belrus 3.9, rusbel 3.8). Built
+  at server start right after the search index (~70 s), rebuilt after 7 days, and per shard by
+  `/api/revalidate-offline` (skarnik_admin will call it on save). Format in `lib/offline/dictionary-format.ts`.
+- Device: IndexedDB `skarnik-offline` v2 adds `words` (key `[dict, id]`) and `dictionaries` (hash per stored
+  shard). `lib/offline/dictionary-sync.ts` downloads shards whose hash differs, so a cut-off download resumes and
+  a daily update fetches only changed shards; each shard is replaced in one transaction.
+- UI: «Афлайн доступ» button on /search opens `components/OfflinePanel.tsx` (texts from skarnik_android; the
+  theme toggle lives there in the installed app). Downloading a dictionary also fetches the search index.
+- Reading: the search pane tries IndexedDB first, then `/api/word`. The service worker's `/~offline` fallback
+  renders a word page from IndexedDB (`components/OfflineWordShell.tsx`), else «Няма злучэння».
+- `redirect_to` holds a path like `/tsbm/20127` (`redirectTarget()` in `lib/seo.ts` returns `{dict, id}`).
+- PostHog: `offline_dictionary_download_click` (`dict_name` belRus|rusBel|tsbm, `dict_path`), as in the apps.
 
 ## Dictionary directions
 

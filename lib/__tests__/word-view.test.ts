@@ -10,6 +10,6 @@ describe('toWordView', () => {
   })
 
   it('turns an alias into the target id', () => {
-    expect(toWordView('rusbel', 5, { ...base, translation: '', redirect_to: '1234' }).redirectTo).toBe(1234)
+    expect(toWordView('rusbel', 5, { ...base, translation: '', redirect_to: '/rusbel/1234' }).redirectTo).toEqual({ dict: 'rusbel', id: 1234 })
   })
 })
