@@ -34,7 +34,9 @@ bun run test:watch   # vitest watch
 | `/sitemaps/[dict]/[n].xml` | ISR `revalidate: 86400` | Word URLs of one id span, aliases (`redirect_to`) left out |
 | `/.well-known/assetlinks.json` | Static route handler | Android App Links verification (`lib/assetlinks.ts`, Play app signing key SHA-256) |
 | `/manifest.webmanifest` | Static (`app/manifest.ts`) | Web app manifest: opens `/search?source=pwa`, icons in `public/icons/`, screenshots in `public/screenshots/` |
-| `/search` | Static | Start page of the installed app (search UI arrives with #22) |
+| `/search` | Dynamic | Search app and start page of the installed app; `?q=` pages are `noindex, follow`, canonical `/search` |
+| `/api/search?q=&dict=` | Dynamic | Search over the in-memory index (`lib/search/`), same algorithm as the apps |
+| `/api/word/[dict]/[id]` | Dynamic | One word for the search app: Supabase, then the admin API |
 | `/~offline` | Static | Fallback the service worker shows for pages not saved offline |
 | `/sw.js` | Generated at build | Serwist service worker from `app/sw.ts` (see PWA below) |
 
@@ -65,8 +67,21 @@ Routes that read Supabase must not render at build time (the Docker build has no
   which clears every cache and unregisters itself. Unset it to bring the normal worker back.
 - Install UI: `lib/pwa.ts` decides (`installUi`): button on desktop Chromium after `beforeinstallprompt`, «Файл → Дадаць у
   Dock» hint in Safari 17+ on macOS, nothing on phones/tablets or inside the installed app. `PWA_INSTALL_PROMOTED`
-  gates the header button and the footer entry until the search app ships.
+  gates the header button and the footer entry (on since #22).
 - PostHog events: `pwa_install_prompt_shown` (`source`), `pwa_installed`.
+
+## Search (#22)
+
+- `lib/search/engine.ts` is a port of skarnik_android's `SearchWordsUseCase`: prefix on lowercased word, then on
+  the letter mask (и→і, е→ё, щ→ў, ъ/'→‘), 15 per stage, then Damerau–Levenshtein on the first-letter bucket, then
+  retry without a glued one-letter preposition. Ties on equal text: Рус-Бел, Бел-Рус, Тлумачальны, then id. Pure
+  TS with no I/O, so the offline app (#23) runs the same code in the browser.
+- The server holds the whole index in memory (`lib/search/server-index.ts`, ~50 MB heap): loaded from `main_word`
+  in 1,000-id spans at server start (`instrumentation.ts`, ~15 s), refreshed daily. No Supabase query per keystroke.
+- `bun scripts/check-search.ts <base-url>` compares `/api/search` with the apps' results in
+  `lib/search/__fixtures__/app-search.json`.
+- Word lookups (`getWord`, word page and `/api/word`): Supabase, then the admin API
+  (`ADMIN_API_URL`, default `https://skarnik.play.of.by`, `GET /api/words/<dict>/<id>/` with `belrus|rusbel|tsbm`).
 
 ## Dictionary directions
 

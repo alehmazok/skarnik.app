@@ -1,0 +1,1007 @@
+{
+ "_comment": "Expected first results of the apps' search (skarnik_android SearchWordsUseCase run over the bundled index of skarnik_ios/Skarnik/vocabulary.db, row order for ties), generated 2026-11-12. Words with identical text may come in another order. Checked by scripts/check-search.ts.",
+ "queries": {
+  "дом": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/19732",
+    "belrus/27976",
+    "tsbm/20762",
+    "rusbel/19799",
+    "belrus/27977",
+    "rusbel/19733",
+    "belrus/27978",
+    "tsbm/20763",
+    "belrus/27979",
+    "tsbm/20764",
+    "belrus/27980",
+    "tsbm/20765",
+    "belrus/27981",
+    "tsbm/20766",
+    "belrus/27982",
+    "tsbm/20767",
+    "rusbel/19734",
+    "rusbel/19735",
+    "rusbel/19736",
+    "belrus/27983",
+    "tsbm/20768",
+    "belrus/27984",
+    "belrus/27985",
+    "tsbm/20769",
+    "rusbel/19737",
+    "rusbel/19738",
+    "rusbel/19740",
+    "rusbel/19739",
+    "rusbel/19741",
+    "rusbel/19742"
+   ]
+  },
+  "прывітан": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/76967",
+    "tsbm/65172",
+    "belrus/76968"
+   ]
+  },
+  "прывитанне": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/76967",
+    "tsbm/65172"
+   ]
+  },
+  "прывітане": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/76968",
+    "belrus/76967",
+    "tsbm/65172",
+    "belrus/76970",
+    "tsbm/65174"
+   ]
+  },
+  "вздравству": {
+   "usedPrepositionFallback": true,
+   "ids": [
+    "rusbel/107108",
+    "rusbel/26174"
+   ]
+  },
+  "щщщщщщщщ": {
+   "usedPrepositionFallback": false,
+   "ids": []
+  },
+  "сло": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/87664",
+    "rusbel/87665",
+    "rusbel/87666",
+    "rusbel/87667",
+    "rusbel/87668",
+    "belrus/89837",
+    "tsbm/78066",
+    "belrus/89838",
+    "belrus/89839",
+    "tsbm/78067",
+    "belrus/89840",
+    "tsbm/78068",
+    "belrus/89841",
+    "tsbm/78069",
+    "belrus/89842",
+    "tsbm/78070",
+    "belrus/89843",
+    "tsbm/78071",
+    "rusbel/87669",
+    "rusbel/87670",
+    "belrus/89844",
+    "belrus/89845",
+    "tsbm/78072",
+    "belrus/89846",
+    "tsbm/78073",
+    "belrus/89847",
+    "tsbm/78074",
+    "belrus/89848",
+    "tsbm/78075",
+    "belrus/89849"
+   ]
+  },
+  "а": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/1",
+    "belrus/2254",
+    "tsbm/1",
+    "belrus/2255",
+    "belrus/2256",
+    "belrus/2257",
+    "belrus/2258",
+    "belrus/2259",
+    "belrus/2260",
+    "belrus/2261",
+    "belrus/2262",
+    "belrus/2263",
+    "belrus/2264",
+    "belrus/2265",
+    "rusbel/1455",
+    "belrus/2266",
+    "tsbm/2",
+    "belrus/2267",
+    "belrus/2268",
+    "belrus/2269",
+    "tsbm/3",
+    "belrus/2270",
+    "tsbm/4",
+    "belrus/2271",
+    "belrus/2272",
+    "belrus/2273",
+    "belrus/2274",
+    "belrus/2275",
+    "belrus/74",
+    "belrus/64"
+   ]
+  },
+  "мова": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/48522",
+    "tsbm/39064",
+    "belrus/48523",
+    "belrus/48524",
+    "tsbm/48622",
+    "tsbm/39065",
+    "belrus/48525",
+    "tsbm/39066",
+    "belrus/48526",
+    "tsbm/39067",
+    "belrus/48527",
+    "tsbm/48621",
+    "belrus/48528",
+    "tsbm/39068",
+    "belrus/48529",
+    "tsbm/39069",
+    "belrus/48530",
+    "tsbm/39070",
+    "belrus/48531",
+    "tsbm/39071"
+   ]
+  },
+  "беларус": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/13902",
+    "tsbm/9599",
+    "belrus/13903",
+    "belrus/13904",
+    "tsbm/9600",
+    "belrus/13905",
+    "belrus/13906",
+    "tsbm/9604",
+    "tsbm/46367",
+    "belrus/13907",
+    "tsbm/9605",
+    "tsbm/9606",
+    "rusbel/4473",
+    "belrus/304",
+    "belrus/13908",
+    "belrus/13909",
+    "belrus/13910",
+    "belrus/13911",
+    "belrus/13912",
+    "tsbm/9601",
+    "belrus/13913",
+    "tsbm/9602",
+    "belrus/13914",
+    "tsbm/9603"
+   ]
+  },
+  "ёлка": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/21348",
+    "belrus/111005",
+    "tsbm/22115",
+    "belrus/111006",
+    "tsbm/22116",
+    "tsbm/22064",
+    "tsbm/22065"
+   ]
+  },
+  "елка": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "tsbm/22064",
+    "tsbm/22065",
+    "rusbel/21348",
+    "belrus/111005",
+    "tsbm/22115",
+    "belrus/111006",
+    "tsbm/22116"
+   ]
+  },
+  "абажур": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/4",
+    "belrus/2444",
+    "tsbm/84",
+    "belrus/2445",
+    "belrus/2446",
+    "tsbm/85",
+    "rusbel/5",
+    "rusbel/6"
+   ]
+  },
+  "съезд": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/92769",
+    "rusbel/92770",
+    "rusbel/92771"
+   ]
+  },
+  "сьезд": {
+   "usedPrepositionFallback": true,
+   "ids": []
+  },
+  "п": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "tsbm/49157",
+    "belrus/57653",
+    "tsbm/58282",
+    "tsbm/58283",
+    "belrus/57654",
+    "belrus/57655",
+    "belrus/57656",
+    "belrus/57657",
+    "belrus/57658",
+    "belrus/57659",
+    "belrus/57660",
+    "tsbm/58284",
+    "belrus/57661",
+    "tsbm/58285",
+    "belrus/57662",
+    "rusbel/57613",
+    "belrus/57686",
+    "tsbm/49158",
+    "belrus/57687",
+    "belrus/57688",
+    "belrus/57689",
+    "belrus/57690",
+    "belrus/57691",
+    "belrus/57692",
+    "belrus/57693",
+    "belrus/57694",
+    "belrus/57695",
+    "belrus/57696",
+    "belrus/57697",
+    "belrus/57698"
+   ]
+  },
+  "кот": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/34129",
+    "belrus/41567",
+    "tsbm/33871",
+    "belrus/41568",
+    "rusbel/34130",
+    "rusbel/34132",
+    "rusbel/34133",
+    "rusbel/34134",
+    "rusbel/34135",
+    "rusbel/34136",
+    "rusbel/34138",
+    "rusbel/34139",
+    "rusbel/34140",
+    "rusbel/34141",
+    "rusbel/34142",
+    "tsbm/33872",
+    "belrus/41569",
+    "belrus/41570",
+    "tsbm/33873",
+    "rusbel/34147",
+    "belrus/969",
+    "belrus/41571",
+    "rusbel/34148",
+    "rusbel/34151",
+    "rusbel/34154",
+    "rusbel/34152",
+    "rusbel/34153",
+    "rusbel/34155",
+    "rusbel/34149",
+    "rusbel/34150"
+   ]
+  },
+  "здравствуй": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/107108"
+   ]
+  },
+  "шчаслівы": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/107865",
+    "tsbm/94772"
+   ]
+  },
+  "счастье": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/92672"
+   ]
+  },
+  "добразычл": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/27889",
+    "belrus/27890",
+    "tsbm/20691",
+    "belrus/27891",
+    "tsbm/20692",
+    "belrus/27892",
+    "tsbm/20693",
+    "belrus/27893"
+   ]
+  },
+  "Мінск": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/1301",
+    "belrus/1302",
+    "belrus/1303",
+    "belrus/49723",
+    "belrus/1304",
+    "rusbel/40438",
+    "rusbel/40439",
+    "rusbel/40440",
+    "rusbel/40441"
+   ]
+  },
+  "минск": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/40438",
+    "rusbel/40439",
+    "rusbel/40440",
+    "rusbel/40441",
+    "belrus/1301",
+    "belrus/1302",
+    "belrus/1303",
+    "belrus/49723",
+    "belrus/1304"
+   ]
+  },
+  "в": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/7157",
+    "tsbm/11487",
+    "rusbel/10877",
+    "belrus/409",
+    "belrus/16443",
+    "belrus/410",
+    "belrus/16444",
+    "tsbm/12474",
+    "belrus/16445",
+    "tsbm/12475",
+    "belrus/16446",
+    "tsbm/12476",
+    "tsbm/12477",
+    "rusbel/7563",
+    "rusbel/7612",
+    "rusbel/7628",
+    "rusbel/11013",
+    "rusbel/11183",
+    "rusbel/11652",
+    "rusbel/11739",
+    "rusbel/11750",
+    "belrus/16447",
+    "belrus/16448",
+    "tsbm/11488",
+    "rusbel/7158",
+    "tsbm/46534",
+    "belrus/16449",
+    "tsbm/46537",
+    "tsbm/11492",
+    "belrus/16450"
+   ]
+  },
+  "ў": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "tsbm/88548",
+    "belrus/112436",
+    "rusbel/105010",
+    "rusbel/105011",
+    "rusbel/105008",
+    "rusbel/105009",
+    "rusbel/105012",
+    "rusbel/105013",
+    "rusbel/105150",
+    "rusbel/105151",
+    "rusbel/105152",
+    "rusbel/105153",
+    "rusbel/105154",
+    "rusbel/105155",
+    "rusbel/105156",
+    "rusbel/105158",
+    "rusbel/105157"
+   ]
+  },
+  "аахен": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/2",
+    "belrus/75",
+    "rusbel/3",
+    "belrus/2280"
+   ]
+  },
+  "лес": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/36401",
+    "belrus/44185",
+    "tsbm/35679",
+    "rusbel/36402",
+    "tsbm/35680",
+    "belrus/44186",
+    "belrus/44187",
+    "belrus/44188",
+    "tsbm/35681",
+    "belrus/44189",
+    "belrus/44190",
+    "tsbm/48180",
+    "belrus/44191",
+    "tsbm/35682",
+    "belrus/44192",
+    "belrus/45109",
+    "tsbm/35827",
+    "tsbm/48181",
+    "tsbm/35683",
+    "belrus/45110",
+    "belrus/44193",
+    "tsbm/35686",
+    "belrus/44194",
+    "tsbm/35687",
+    "belrus/44195",
+    "tsbm/35688",
+    "belrus/44196",
+    "tsbm/35689",
+    "belrus/44197",
+    "tsbm/35690"
+   ]
+  },
+  "лёс": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/45109",
+    "tsbm/35827",
+    "belrus/45110",
+    "belrus/45111",
+    "tsbm/35828",
+    "belrus/45112",
+    "belrus/45113",
+    "belrus/45114",
+    "belrus/45115",
+    "belrus/45116",
+    "tsbm/48208",
+    "rusbel/36411",
+    "belrus/45117",
+    "tsbm/35829",
+    "belrus/45118",
+    "rusbel/36401",
+    "belrus/44185",
+    "tsbm/35679",
+    "rusbel/36402",
+    "tsbm/35680",
+    "belrus/44186",
+    "belrus/44187",
+    "belrus/44188",
+    "tsbm/35681",
+    "belrus/44189",
+    "belrus/44190",
+    "tsbm/48180",
+    "belrus/44191",
+    "tsbm/35682",
+    "belrus/44192"
+   ]
+  },
+  "мир": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/40477",
+    "rusbel/40476",
+    "rusbel/40478",
+    "rusbel/40479",
+    "rusbel/40480",
+    "rusbel/40481",
+    "rusbel/40482",
+    "rusbel/40483",
+    "rusbel/40484",
+    "rusbel/40485",
+    "rusbel/40486",
+    "rusbel/40487",
+    "rusbel/40488",
+    "rusbel/40489",
+    "rusbel/40490",
+    "belrus/1306",
+    "belrus/49778",
+    "tsbm/38800",
+    "belrus/49779",
+    "tsbm/38801",
+    "belrus/49781",
+    "tsbm/38803",
+    "belrus/49782",
+    "tsbm/38804",
+    "belrus/49780",
+    "tsbm/38802",
+    "belrus/49783",
+    "tsbm/38805",
+    "belrus/49784",
+    "belrus/49785"
+   ]
+  },
+  "мір": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/1306",
+    "belrus/49778",
+    "tsbm/38800",
+    "belrus/49779",
+    "tsbm/38801",
+    "belrus/49780",
+    "tsbm/38802",
+    "belrus/49781",
+    "tsbm/38803",
+    "belrus/49782",
+    "tsbm/38804",
+    "belrus/49783",
+    "tsbm/38805",
+    "belrus/49784",
+    "belrus/49785",
+    "rusbel/40477",
+    "rusbel/40476",
+    "rusbel/40479",
+    "rusbel/40480",
+    "rusbel/40478",
+    "rusbel/40481",
+    "tsbm/38806",
+    "rusbel/40482",
+    "belrus/49789",
+    "tsbm/38808",
+    "belrus/49790",
+    "tsbm/38809",
+    "rusbel/40483",
+    "rusbel/40484",
+    "belrus/49791"
+   ]
+  },
+  "хлеб": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/101359",
+    "belrus/103444",
+    "tsbm/90729",
+    "belrus/103445",
+    "tsbm/90730",
+    "belrus/103446",
+    "tsbm/90731",
+    "belrus/103447",
+    "tsbm/90732",
+    "belrus/103448",
+    "tsbm/90733",
+    "tsbm/90734",
+    "tsbm/90735",
+    "belrus/103449",
+    "tsbm/90736",
+    "tsbm/90737",
+    "tsbm/90738",
+    "tsbm/90739",
+    "belrus/103450",
+    "belrus/103451",
+    "tsbm/90741",
+    "belrus/103452",
+    "tsbm/90742",
+    "belrus/103453",
+    "tsbm/90743",
+    "belrus/103454",
+    "tsbm/90744",
+    "belrus/103455",
+    "tsbm/90740",
+    "belrus/103456"
+   ]
+  },
+  "агульна": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/4955",
+    "tsbm/2530",
+    "tsbm/2531",
+    "belrus/4956",
+    "belrus/4957",
+    "tsbm/2532",
+    "belrus/4958",
+    "tsbm/2533",
+    "belrus/4959",
+    "tsbm/2534",
+    "tsbm/45886",
+    "belrus/4960",
+    "belrus/4961",
+    "tsbm/2535",
+    "belrus/4962",
+    "tsbm/2536",
+    "belrus/4963",
+    "tsbm/2537",
+    "belrus/4964",
+    "tsbm/2538",
+    "belrus/4965",
+    "belrus/4966",
+    "tsbm/2539",
+    "belrus/4967",
+    "belrus/4968",
+    "belrus/4969",
+    "tsbm/2540",
+    "belrus/4970",
+    "tsbm/2541",
+    "belrus/4971"
+   ]
+  },
+  "чалавек": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/105327",
+    "tsbm/92398",
+    "belrus/105328",
+    "belrus/105329",
+    "tsbm/92399",
+    "belrus/105330",
+    "belrus/105331",
+    "tsbm/92400",
+    "belrus/105332",
+    "belrus/105333",
+    "tsbm/92401",
+    "belrus/105334",
+    "tsbm/92402",
+    "belrus/105335",
+    "tsbm/92403",
+    "belrus/105336",
+    "tsbm/92404",
+    "tsbm/92405",
+    "belrus/105338",
+    "tsbm/92408",
+    "belrus/105339",
+    "tsbm/92409",
+    "belrus/105337",
+    "tsbm/92406",
+    "belrus/105340",
+    "tsbm/92407",
+    "belrus/105341",
+    "tsbm/92410",
+    "belrus/105342",
+    "tsbm/92411"
+   ]
+  },
+  "человек": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/102852",
+    "rusbel/102855",
+    "rusbel/102856",
+    "rusbel/102857",
+    "rusbel/102866",
+    "rusbel/102869",
+    "rusbel/102853",
+    "rusbel/102854",
+    "rusbel/102858",
+    "rusbel/102859",
+    "rusbel/102860",
+    "rusbel/102861",
+    "rusbel/102862",
+    "rusbel/102863",
+    "rusbel/102864",
+    "rusbel/102865",
+    "rusbel/102867",
+    "rusbel/102868"
+   ]
+  },
+  "сонца": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/90388",
+    "tsbm/78523",
+    "tsbm/78524",
+    "belrus/90389",
+    "belrus/90390",
+    "tsbm/78525",
+    "belrus/90391",
+    "tsbm/78526",
+    "belrus/90392",
+    "tsbm/78527",
+    "belrus/90393",
+    "tsbm/78528",
+    "belrus/90394",
+    "tsbm/78529",
+    "tsbm/78530"
+   ]
+  },
+  "солнце": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/88989",
+    "rusbel/88990",
+    "rusbel/88991",
+    "rusbel/88992",
+    "rusbel/88993",
+    "rusbel/88994",
+    "rusbel/88995",
+    "rusbel/88996"
+   ]
+  },
+  "вода": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/9609",
+    "belrus/17880",
+    "tsbm/12878",
+    "belrus/17881",
+    "tsbm/12879",
+    "belrus/17882",
+    "tsbm/12880",
+    "belrus/17883",
+    "belrus/17884",
+    "belrus/17885",
+    "tsbm/12881",
+    "belrus/17886",
+    "tsbm/12882",
+    "tsbm/12883",
+    "belrus/17887",
+    "belrus/17888",
+    "belrus/17889",
+    "belrus/17890",
+    "belrus/17891",
+    "tsbm/12884",
+    "belrus/17892",
+    "tsbm/46630",
+    "belrus/17893",
+    "tsbm/12885",
+    "belrus/17894",
+    "tsbm/46631",
+    "belrus/17895",
+    "tsbm/12886",
+    "belrus/17896",
+    "tsbm/46633"
+   ]
+  },
+  "вада": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/16498",
+    "tsbm/11525",
+    "tsbm/11526",
+    "belrus/16499",
+    "tsbm/11527",
+    "belrus/16500",
+    "belrus/16501",
+    "tsbm/11528",
+    "belrus/16502",
+    "belrus/16503",
+    "tsbm/11529",
+    "belrus/16504",
+    "belrus/16505",
+    "tsbm/11530",
+    "tsbm/11531",
+    "belrus/16506",
+    "tsbm/11532",
+    "belrus/16507",
+    "tsbm/11533",
+    "belrus/16508",
+    "tsbm/11534",
+    "belrus/16509",
+    "belrus/16510",
+    "tsbm/11536",
+    "belrus/16511",
+    "tsbm/11537",
+    "belrus/16512",
+    "belrus/16513",
+    "tsbm/11538",
+    "belrus/16514"
+   ]
+  },
+  "книга": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/32016",
+    "belrus/41229",
+    "tsbm/33584",
+    "belrus/41230",
+    "tsbm/33585",
+    "belrus/41231",
+    "tsbm/33586",
+    "belrus/41232",
+    "tsbm/33587",
+    "belrus/41233",
+    "tsbm/33588",
+    "tsbm/33589",
+    "belrus/41234",
+    "tsbm/33590",
+    "belrus/41235",
+    "belrus/41236",
+    "tsbm/33591",
+    "belrus/41237",
+    "tsbm/33592",
+    "belrus/41239",
+    "tsbm/33594",
+    "belrus/41240",
+    "tsbm/33595",
+    "belrus/41241",
+    "tsbm/48060",
+    "belrus/41242",
+    "tsbm/33596",
+    "belrus/41243",
+    "tsbm/33597",
+    "belrus/41244"
+   ]
+  },
+  "кніга": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/41229",
+    "tsbm/33584",
+    "belrus/41230",
+    "tsbm/33585",
+    "belrus/41231",
+    "tsbm/33586",
+    "belrus/41232",
+    "tsbm/33587",
+    "belrus/41233",
+    "tsbm/33588",
+    "tsbm/33589",
+    "belrus/41234",
+    "tsbm/33590",
+    "belrus/41235",
+    "belrus/41236",
+    "rusbel/32016",
+    "tsbm/33591",
+    "belrus/41237",
+    "tsbm/33592",
+    "belrus/41239",
+    "tsbm/33594",
+    "belrus/41240",
+    "tsbm/33595",
+    "belrus/41241",
+    "tsbm/48060",
+    "belrus/41242",
+    "tsbm/33596",
+    "belrus/41243",
+    "tsbm/33597",
+    "belrus/41244"
+   ]
+  },
+  "жыццё": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/30347",
+    "tsbm/22656",
+    "belrus/30348",
+    "belrus/30349",
+    "belrus/30350",
+    "belrus/30351",
+    "tsbm/22657",
+    "belrus/30352",
+    "belrus/30353",
+    "tsbm/22658",
+    "tsbm/22648",
+    "belrus/30328",
+    "tsbm/22649",
+    "tsbm/22650",
+    "belrus/30329",
+    "tsbm/47184",
+    "belrus/30330",
+    "belrus/30331",
+    "tsbm/22651",
+    "tsbm/22652",
+    "belrus/30332",
+    "tsbm/22653",
+    "belrus/30333",
+    "tsbm/22654",
+    "belrus/30334"
+   ]
+  },
+  "жизнь": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/21885"
+   ]
+  },
+  "ведаць": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/17326",
+    "tsbm/12198"
+   ]
+  },
+  "знать": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/26564",
+    "rusbel/26565"
+   ]
+  },
+  "кахаць": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/40456",
+    "tsbm/32656"
+   ]
+  },
+  "любить": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/37705"
+   ]
+  },
+  "прыгожы": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/77082",
+    "tsbm/65338",
+    "tsbm/65339"
+   ]
+  },
+  "красивый": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "rusbel/34315"
+   ]
+  },
+  "абы": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "tsbm/2019",
+    "tsbm/2020",
+    "tsbm/2030",
+    "tsbm/2032",
+    "tsbm/2035",
+    "tsbm/2036",
+    "tsbm/2054",
+    "tsbm/2056",
+    "tsbm/2057",
+    "belrus/4259",
+    "tsbm/2058",
+    "tsbm/2061",
+    "belrus/4260",
+    "tsbm/2021",
+    "belrus/4261",
+    "tsbm/2022",
+    "belrus/4262",
+    "tsbm/2023",
+    "belrus/4263",
+    "tsbm/2024",
+    "belrus/4264",
+    "tsbm/2025",
+    "belrus/4265",
+    "tsbm/2026",
+    "belrus/4266",
+    "tsbm/2027",
+    "belrus/4267",
+    "tsbm/2028",
+    "belrus/4268",
+    "tsbm/2029"
+   ]
+  },
+  "інтэрнэт": {
+   "usedPrepositionFallback": false,
+   "ids": [
+    "belrus/112089",
+    "tsbm/29947",
+    "belrus/112088",
+    "tsbm/47762"
+   ]
+  }
+ }
+}
