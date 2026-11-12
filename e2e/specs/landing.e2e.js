@@ -49,7 +49,29 @@ describe('Landing page', () => {
     const about = await $('button=Пра Скарнік')
     await about.scrollIntoView()
     await about.click()
-    await browser.waitUntil(isOpen, { timeoutMsg: 'dialog did not open' })
+    const opened = await browser
+      .waitUntil(isOpen, { timeout: 5000 })
+      .then(() => true, () => false)
+    if (!opened) {
+      // Say why, so a device-specific failure can be told apart from a tap that missed.
+      const why = await browser.execute(() => {
+        const btn = [...document.querySelectorAll('button')].find((b) => b.textContent === 'Пра Скарнік')
+        const r = btn.getBoundingClientRect()
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)
+        let jsClick = 'ok'
+        try { btn.click() } catch (e) { jsClick = String(e) }
+        const dialog = document.querySelector('dialog')
+        return {
+          ua: navigator.userAgent,
+          showModal: typeof dialog?.showModal,
+          hitIsButton: hit === btn || btn.contains(hit),
+          hit: hit ? hit.outerHTML.slice(0, 120) : null,
+          jsClick,
+          openAfterJsClick: dialog?.open === true,
+        }
+      })
+      throw new Error(`dialog did not open after a tap: ${JSON.stringify(why)}`)
+    }
     const text = await browser.execute(() => document.querySelector('dialog')?.textContent ?? '')
     expect(text).toContain('skarnik.by')
     await $('button[aria-label="Закрыць"]').click()
