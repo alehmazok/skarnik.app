@@ -108,6 +108,15 @@ bun run test
 
 New Supabase query shapes must be verified against the live DB via MCP before writing tests — don't rely solely on mocks for data shape validation.
 
+## End-to-end tests
+
+Real-device tests (iOS Safari, Android Chrome) run on BrowserStack after every deploy; see
+[`e2e/README.md`](e2e/README.md).
+
+## Acknowledgements
+
+This project is tested with BrowserStack.
+
 ## License
 
 Source code licensed under the [MIT License](LICENSE). Dictionary content served by this site is © its respective rights holders and is not covered by this license.

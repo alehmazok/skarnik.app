@@ -10,3 +10,8 @@ node_modules/
 # Design prototype — not used in production
 Skarnik.dc.html
 support.js
+
+# e2e (WebdriverIO) deps and logs
+/e2e/node_modules/
+/e2e/package-lock.json
+/e2e/*.log
