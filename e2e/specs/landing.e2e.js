@@ -1,5 +1,5 @@
 import { browser, $, expect } from '@wdio/globals'
-import { open, hasHorizontalScroll, waitForLoad } from './helpers.js'
+import { open, overflowingElements, waitForLoad } from './helpers.js'
 
 describe('Landing page', () => {
   before(async () => {
@@ -20,7 +20,7 @@ describe('Landing page', () => {
   })
 
   it('does not scroll sideways', async () => {
-    expect(await hasHorizontalScroll()).toBe(false)
+    expect(await overflowingElements()).toEqual([])
   })
 
   it('cycles the theme: auto → light → dark → auto', async () => {
@@ -43,13 +43,16 @@ describe('Landing page', () => {
   })
 
   it('opens and closes the "Пра Скарнік" dialog', async () => {
+    // Checks the dialog's `open` state: WebDriver's isDisplayed misreports
+    // top-layer <dialog> elements in older iOS Safari.
+    const isOpen = () => browser.execute(() => document.querySelector('dialog')?.open === true)
     const about = await $('button=Пра Скарнік')
     await about.scrollIntoView()
     await about.click()
-    const dialog = await $('dialog')
-    await expect(dialog).toBeDisplayed()
-    await expect(dialog).toHaveText('skarnik.by', { containing: true })
+    await browser.waitUntil(isOpen, { timeoutMsg: 'dialog did not open' })
+    const text = await browser.execute(() => document.querySelector('dialog')?.textContent ?? '')
+    expect(text).toContain('skarnik.by')
     await $('button[aria-label="Закрыць"]').click()
-    await expect(dialog).not.toBeDisplayed()
+    await browser.waitUntil(async () => !(await isOpen()), { timeoutMsg: 'dialog did not close' })
   })
 })

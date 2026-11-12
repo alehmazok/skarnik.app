@@ -26,9 +26,35 @@ export async function open(path) {
   }
 }
 
-/** True when the page is wider than the viewport (horizontal scroll on a phone). */
-export async function hasHorizontalScroll() {
-  return browser.execute(
-    () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
-  )
+/**
+ * Elements that stick out past the right edge of the viewport (they cause
+ * horizontal scroll on a phone), as short descriptions; empty when none.
+ * Only the outermost offender of each branch is listed.
+ */
+export async function overflowingElements() {
+  return browser.execute(() => {
+    const width = document.documentElement.clientWidth
+    if (document.documentElement.scrollWidth <= width + 1) return []
+    const out = []
+    const describe = (el) => {
+      const r = el.getBoundingClientRect()
+      const cls = typeof el.className === 'string' && el.className ? '.' + el.className.split(' ')[0] : ''
+      const text = (el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40)
+      return `<${el.tagName.toLowerCase()}${cls}> right=${Math.round(r.right)} width=${Math.round(r.width)} viewport=${width} "${text}"`
+    }
+    const walk = (el) => {
+      for (const child of el.children) {
+        if (child.getBoundingClientRect().right > width + 1) {
+          // Report the deepest single cause: descend while only one child overflows.
+          const inner = [...child.children].filter((c) => c.getBoundingClientRect().right > width + 1)
+          if (inner.length === 0) out.push(describe(child))
+          else walk(child)
+        } else {
+          walk(child)
+        }
+      }
+    }
+    walk(document.body)
+    return out.length ? out.slice(0, 5) : [`scrollWidth=${document.documentElement.scrollWidth} viewport=${width}`]
+  })
 }

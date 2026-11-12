@@ -1,5 +1,5 @@
 import { browser, $, expect } from '@wdio/globals'
-import { open, hasHorizontalScroll } from './helpers.js'
+import { open, overflowingElements } from './helpers.js'
 
 // The example shared link from the mobile app (see CLAUDE.md).
 const WORD_PATH = '/r/belrus/27890'
@@ -28,7 +28,7 @@ describe('Shared word page', () => {
   })
 
   it('does not scroll sideways', async () => {
-    expect(await hasHorizontalScroll()).toBe(false)
+    expect(await overflowingElements()).toEqual([])
   })
 
   it('redirects a zero-padded id to the canonical URL', async () => {
