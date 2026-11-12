@@ -1,31 +1,34 @@
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
+import SearchApp from '@/components/SearchApp'
+import styles from '@/components/SearchApp.module.css'
 
-export const metadata: Metadata = {
-  title: 'Пошук — Skarnik.app',
-  // Placeholder until the search app ships (#22); kept out of the index until then.
-  robots: { index: false, follow: true },
-  alternates: { canonical: '/search' },
+const description =
+  'Пошук па беларуска-рускім, руска-беларускім і тлумачальным слоўніках беларускай мовы з націскамі.'
+
+interface PageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
-/** Start page of the installed app. The search itself arrives in the next phase (#22). */
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const { q } = await searchParams
+  return {
+    title: 'Пошук у слоўніку — Skarnik.app',
+    description,
+    alternates: { canonical: '/search' },
+    // Result pages would compete with the word pages, so only the bare search page is indexed.
+    robots: q ? { index: false, follow: true } : undefined,
+    openGraph: { title: 'Пошук у слоўніку — Skarnik.app', description, url: '/search' },
+  }
+}
+
+/** The search app, and the start page of the installed app. */
 export default function SearchPage() {
   return (
-    <div style={{
-      minHeight: '100vh', display: 'flex', flexDirection: 'column',
-      background: 'var(--bg)', color: 'var(--ink)',
-      fontFamily: 'var(--font-grotesk), Helvetica, Arial, sans-serif',
-    }}>
+    <div className={styles.page}>
       <Header />
-      <main style={{
-        flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        gap: 14, textAlign: 'center', padding: '32px clamp(20px,6vw,64px)',
-      }}>
-        <h1 style={{ margin: 0, fontSize: 'clamp(1.6rem,5vw,2.6rem)', letterSpacing: '-.02em' }}>Пошук</h1>
-        <p style={{ margin: 0, maxWidth: '40ch', fontSize: 16, lineHeight: 1.6, color: 'var(--soft)' }}>
-          Пошук па слоўніках з&apos;явіцца тут у наступным абнаўленні.
-        </p>
-      </main>
+      <h1 className={styles.visuallyHidden}>Пошук у слоўніку</h1>
+      <SearchApp />
     </div>
   )
 }

@@ -2,12 +2,8 @@
  * Installable-app (PWA) helpers shared by the manifest, the install button and the service worker setup.
  */
 
-/**
- * Whether the site invites people to install the app (header button, landing line).
- * Off until the search app at /search ships (#22): the manifest and the worker are live before that,
- * but nobody is asked to install an app that only shows a placeholder.
- */
-export const PWA_INSTALL_PROMOTED = false
+/** Whether the site invites people to install the app (header button, landing line). On since the search app shipped (#22). */
+export const PWA_INSTALL_PROMOTED = true
 
 export const PWA_START_URL = '/search?source=pwa'
 

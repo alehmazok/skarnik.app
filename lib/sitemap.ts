@@ -8,7 +8,7 @@ export const SITEMAP_ID_SPAN = 50_000
 /** PostgREST on Supabase returns at most 1,000 rows per request. */
 const PAGE_ROWS = 1000
 
-export const STATIC_PATHS = ['/', '/privacy', '/privacy/en'] as const
+export const STATIC_PATHS = ['/', '/search', '/privacy', '/privacy/en'] as const
 
 function escapeXml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
