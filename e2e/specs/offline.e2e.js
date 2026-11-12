@@ -2,6 +2,9 @@ import { browser, $, expect } from '@wdio/globals'
 import { open, overflowingElements } from './helpers.js'
 
 // «Афлайн доступ» (#24): download a dictionary on a real phone, read a word from it, delete it.
+const belrus = () => $('[data-dict="belrus"]')
+const belrusButton = text => belrus().$(`button=${text}`)
+
 describe('Offline dictionaries', () => {
   before(async () => {
     await open('/search')
@@ -9,14 +12,15 @@ describe('Offline dictionaries', () => {
 
   it('opens «Афлайн доступ» with the three dictionaries', async () => {
     await $('button=Афлайн доступ').click()
-    await expect($('[data-dict="belrus"]')).toBeDisplayed()
-    await $('[data-dict="belrus"] button=Спампаваць для афлайн доступу').waitForEnabled({ timeout: 120000 })
+    await expect(belrus()).toBeDisplayed()
+    // The first manifest after a deploy waits for the server to build the dictionaries.
+    await belrusButton('Спампаваць для афлайн доступу').waitForEnabled({ timeout: 180000 })
     expect(await overflowingElements()).toEqual([])
   })
 
   it('downloads the Belarusian–Russian dictionary', async () => {
-    await $('[data-dict="belrus"] button=Спампаваць для афлайн доступу').click()
-    await browser.waitUntil(async () => (await $('[data-dict="belrus"]').getText()).includes('Спампавана'), {
+    await belrusButton('Спампаваць для афлайн доступу').click()
+    await browser.waitUntil(async () => (await belrus().getText()).includes('Спампавана'), {
       timeout: 180000,
       timeoutMsg: 'the dictionary did not finish downloading',
     })
@@ -33,8 +37,10 @@ describe('Offline dictionaries', () => {
   })
 
   it('deletes the offline copy', async () => {
-    await $('[data-dict="belrus"] button=Выдаліць афлайн-копію').click()
-    await $('[data-dict="belrus"] button=Выдаліць афлайн-копію').click()
-    await expect($('[data-dict="belrus"]*=Афлайн-копія слоўніка выдалена.')).toBeDisplayed()
+    await belrusButton('Выдаліць афлайн-копію').click()
+    await belrusButton('Выдаліць афлайн-копію').click()
+    await browser.waitUntil(async () => (await belrus().getText()).includes('Афлайн-копія слоўніка выдалена.'), {
+      timeoutMsg: 'the offline copy was not deleted',
+    })
   })
 })
