@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import Link from 'next/link'
 import posthog from 'posthog-js'
+import DesktopAppButton from './DesktopAppButton'
 
 export default function Footer() {
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -63,6 +64,7 @@ export default function Footer() {
             label="AppGallery"
             store="appgallery"
           />
+          <DesktopAppButton />
         </div>
 
         <div style={{
