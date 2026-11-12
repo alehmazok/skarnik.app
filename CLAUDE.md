@@ -179,6 +179,10 @@ lib/
 - Component tests with React Testing Library for UI components
 - Test runner: Vitest (`bun run test`)
 - Shallow mocks are acceptable for unit tests that validate query construction (see `words.test.ts`)
+- Real-device e2e: `e2e/` (WebdriverIO on BrowserStack Automate, own `package.json`, specs `*.e2e.js`),
+  run by `.github/workflows/browserstack.yml` against the live site after each deploy. The sponsored plan is
+  Automate Mobile (iOS Safari + Android Chrome, 5 parallel), not desktop. Add a spec for every new page or
+  user flow (e.g. `/search`). Keep "This project is tested with BrowserStack" in README.md (sponsorship condition).
 - Do not use mocks as a substitute for real data shape validation — any new Supabase query shape must be manually verified against the live DB via MCP before writing tests
 
 ## GitHub issues

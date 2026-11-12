@@ -1,0 +1,58 @@
+name: BrowserStack
+
+# Real-device browser tests (iOS Safari, Android Chrome) on BrowserStack
+# Automate against the deployed site. See e2e/README.md.
+on:
+  # After every successful deploy of main, check what is live now.
+  workflow_run:
+    workflows: [Deploy]
+    types: [completed]
+  # Weekly, to catch browser/OS updates on devices between deploys.
+  schedule:
+    - cron: '0 6 * * 1'
+  # PRs that change the tests themselves (run against production).
+  pull_request:
+    paths:
+      - 'e2e/**'
+      - '.github/workflows/browserstack.yml'
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Site to test
+        default: https://skarnik.app
+
+concurrency:
+  group: browserstack-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    # Skip failed deploys, and fork PRs (no access to secrets).
+    if: >-
+      (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: e2e
+    env:
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      BASE_URL: ${{ inputs.base_url || 'https://skarnik.app' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check secrets
+        run: |
+          if [ -z "$BROWSERSTACK_USERNAME" ] || [ -z "$BROWSERSTACK_ACCESS_KEY" ]; then
+            echo "::error::Add repo secrets BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+      - run: npm install --no-audit --no-fund
+      - run: npm test
