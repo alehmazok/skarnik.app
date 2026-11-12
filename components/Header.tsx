@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import ThemeToggle from './ThemeToggle'
+import InstallButton from './InstallButton'
 
 export default function Header() {
   return (
@@ -14,7 +15,10 @@ export default function Header() {
       }}>
         Skarnik.app
       </Link>
-      <ThemeToggle />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <InstallButton />
+        <ThemeToggle />
+      </div>
     </header>
   )
 }

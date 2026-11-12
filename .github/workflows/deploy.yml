@@ -39,6 +39,7 @@ jobs:
             NEXT_PUBLIC_POSTHOG_HOST=${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
             GIT_SHA=${{ github.sha }}
             BUILD_TIME=${{ github.event.head_commit.timestamp }}
+            SW_KILL_SWITCH=${{ vars.SW_KILL_SWITCH }}
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1

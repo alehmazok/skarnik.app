@@ -144,3 +144,10 @@ body {
   :root:not([data-theme="light"]) .translation-html font[color="151B54" i],
   :root:not([data-theme="light"]) .translation-html font[color="#151B54" i] { color: #98989F; }
 }
+
+/* Installed app with the title bar hidden: keep content below the window controls. */
+@media (display-mode: window-controls-overlay) {
+  body {
+    padding-top: env(titlebar-area-height, 0px);
+  }
+}

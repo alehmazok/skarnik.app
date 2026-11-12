@@ -6,7 +6,10 @@ RUN bun install --frozen-lockfile
 COPY . .
 ARG NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN
 ARG NEXT_PUBLIC_POSTHOG_HOST
-RUN bun run build
+# GIT_SHA versions the precached app shell; SW_KILL_SWITCH=1 ships the self-removing worker.
+ARG GIT_SHA=unknown
+ARG SW_KILL_SWITCH=
+RUN GIT_SHA=$GIT_SHA SW_KILL_SWITCH=$SW_KILL_SWITCH bun run build
 
 # Stage 2: minimal runtime
 FROM node:22-alpine AS runner

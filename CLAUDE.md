@@ -33,6 +33,10 @@ bun run test:watch   # vitest watch
 | `/sitemap.xml` | Dynamic route handler | Sitemap index: `/sitemaps/pages.xml` + one file per 50k `external_id`s per dictionary (`lib/sitemap.ts`) |
 | `/sitemaps/[dict]/[n].xml` | ISR `revalidate: 86400` | Word URLs of one id span, aliases (`redirect_to`) left out |
 | `/.well-known/assetlinks.json` | Static route handler | Android App Links verification (`lib/assetlinks.ts`, Play app signing key SHA-256) |
+| `/manifest.webmanifest` | Static (`app/manifest.ts`) | Web app manifest: opens `/search?source=pwa`, icons in `public/icons/`, screenshots in `public/screenshots/` |
+| `/search` | Static | Start page of the installed app (search UI arrives with #22) |
+| `/~offline` | Static | Fallback the service worker shows for pages not saved offline |
+| `/sw.js` | Generated at build | Serwist service worker from `app/sw.ts` (see PWA below) |
 
 Unknown `dict` values → 404 immediately (validated against enum).
 
@@ -47,6 +51,22 @@ Routes that read Supabase must not render at build time (the Docker build has no
   stress for share previews. Description = dictionary + plain-text start of the translation (≤160 chars).
 - Aliases and non-canonical ids (`/r/belrus/027890`) redirect with `permanentRedirect` (308).
 - Structured data: `DefinedTerm` on word pages, `WebSite` on the landing page, via `components/JsonLd.tsx`.
+
+## PWA (installable app, #19)
+
+- Service worker: Serwist (`@serwist/next`, webpack build). Source `app/sw.ts`, routing rules in `lib/sw-routes.ts`
+  (unit-tested); output `public/sw.js` is generated and gitignored. Disabled in `next dev`.
+- Precache: `/_next/static`, icons, badges, and the shell pages `/search` + `/~offline` (revision = `GIT_SHA`).
+  Page navigations are network first (3 s), cached only when `200` and not redirected, LRU 200. `/api/`, `/ingest/`,
+  sitemaps and OG images are never cached.
+- Updates: a new worker waits; `components/ServiceWorkerManager.tsx` shows «Ёсць новая версія — Абнавіць», which sends
+  `SKIP_WAITING` and reloads.
+- Kill switch: set the repo variable `SW_KILL_SWITCH=1` and redeploy. The build then ships `app/sw-kill-switch.ts`,
+  which clears every cache and unregisters itself. Unset it to bring the normal worker back.
+- Install UI: `lib/pwa.ts` decides (`installUi`): button on desktop Chromium after `beforeinstallprompt`, «Файл → Дадаць у
+  Dock» hint in Safari 17+ on macOS, nothing on phones/tablets or inside the installed app. `PWA_INSTALL_PROMOTED`
+  gates the header button and the footer entry until the search app ships.
+- PostHog events: `pwa_install_prompt_shown` (`source`), `pwa_installed`.
 
 ## Dictionary directions
 

@@ -1,6 +1,7 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import CookieConsent from '@/components/CookieConsent'
+import ServiceWorkerManager from '@/components/ServiceWorkerManager'
 import './globals.css'
 
 // Self-hosted (latin subset, variable weight) so the Docker build doesn't
@@ -24,7 +25,6 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://skarnik.app'),
   title: 'Skarnik.app',
   description: 'Беларускі слоўнік',
-  manifest: '/site.webmanifest',
   openGraph: {
     type: 'website',
     siteName: 'Skarnik.app',
@@ -33,6 +33,13 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f0f10' },
+  ],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -47,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <CookieConsent />
+        <ServiceWorkerManager />
       </body>
     </html>
   )
