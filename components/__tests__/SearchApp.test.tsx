@@ -4,6 +4,9 @@ import SearchApp, { searchUrl } from '../SearchApp'
 
 vi.mock('posthog-js', () => ({ default: { capture: vi.fn() } }))
 
+const offline = vi.hoisted(() => ({ search: null as null | { load: () => Promise<boolean>; ready: () => boolean; search: (q: string, d: string | null) => Promise<unknown> } }))
+vi.mock('@/lib/offline/offline-search', () => ({ getOfflineSearch: () => offline.search }))
+
 const fetchMock = vi.fn()
 let wide = false
 
@@ -14,6 +17,7 @@ function json(data: unknown) {
 beforeEach(() => {
   vi.stubGlobal('fetch', fetchMock)
   fetchMock.mockReset()
+  offline.search = null
   wide = false
   window.matchMedia = vi.fn((query: string) => ({ matches: query.includes('840') ? wide : false })) as unknown as typeof window.matchMedia
   window.history.replaceState(null, '', '/search')
@@ -102,5 +106,16 @@ describe('SearchApp', () => {
       fireEvent.click(links[0])
     })
     expect(await screen.findByText('target')).toBeInTheDocument()
+  })
+
+  it('searches the stored offline index instead of the server once it is loaded', async () => {
+    const search = vi.fn(async () => RESULT)
+    offline.search = { load: async () => true, ready: () => true, search }
+    render(<SearchApp />)
+    await act(async () => {})
+    fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'дом' } })
+    await waitFor(() => expect(screen.getAllByRole('link')).toHaveLength(2))
+    expect(search).toHaveBeenCalledWith('дом', null)
+    expect(fetchMock).not.toHaveBeenCalled()
   })
 })

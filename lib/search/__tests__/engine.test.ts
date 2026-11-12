@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   applySubstitutions,
+  boundedDamerauLevenshtein,
   damerauLevenshtein,
   RESULT_LIMIT,
   SearchEngine,
@@ -103,5 +104,22 @@ describe('helpers', () => {
     expect(damerauLevenshtein('кот', 'кіт')).toBe(1)
     expect(damerauLevenshtein('', 'дом')).toBe(3)
     expect(damerauLevenshtein('абв', 'абв')).toBe(0)
+  })
+
+  it('stops early past the bound but agrees with the full distance within it', () => {
+    const letters = 'абвгдё'
+    const words = Array.from({ length: 400 }, (_, i) => {
+      let w = ''
+      for (let n = i; w.length < 3 + (i % 4); n = Math.floor(n / 6) + w.length + 1) w += letters[n % 6]
+      return w
+    })
+    for (const a of words.slice(0, 40)) {
+      for (const b of words) {
+        const full = damerauLevenshtein(a, b)
+        for (const max of [1, 2]) expect(boundedDamerauLevenshtein(a, b, max)).toBe(full <= max ? full : max + 1)
+      }
+    }
+    expect(boundedDamerauLevenshtein('абвгдежз', 'зжедгвба', 2)).toBe(3)
+    expect(boundedDamerauLevenshtein('бадзе', 'абдзе', 1)).toBe(1)
   })
 })

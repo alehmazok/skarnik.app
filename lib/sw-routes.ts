@@ -11,7 +11,7 @@ export const PAGE_NETWORK_TIMEOUT_SECONDS = 3
 export const SHELL_PATHS = ['/search', OFFLINE_PATH] as const
 
 /** Paths that are never stored by the worker: live data, analytics, the update check and generated images. */
-const NEVER_CACHED_PREFIXES = ['/api/', '/ingest/', '/sitemaps/', '/_next/', '/.well-known/']
+const NEVER_CACHED_PREFIXES = ['/api/', '/ingest/', '/offline-data/', '/sitemaps/', '/_next/', '/.well-known/']
 const NEVER_CACHED_EXACT = new Set(['/sitemap.xml', '/robots.txt', '/manifest.webmanifest', '/sw.js'])
 
 /** Whether a page navigation may be kept in the runtime `pages` cache. */

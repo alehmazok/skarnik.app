@@ -5,6 +5,6 @@ describe('robots', () => {
   it('allows crawling and points to the sitemap index', () => {
     const r = robots()
     expect(r.sitemap).toBe('https://skarnik.app/sitemap.xml')
-    expect(r.rules).toMatchObject({ userAgent: '*', allow: '/', disallow: ['/api/', '/ingest/'] })
+    expect(r.rules).toMatchObject({ userAgent: '*', allow: '/', disallow: ['/api/', '/ingest/', '/offline-data/'] })
   })
 })
