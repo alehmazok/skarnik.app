@@ -7,6 +7,10 @@ import { headwordLang } from '@/lib/heading'
 import { wordPath } from '@/lib/seo'
 import type { SearchHit, SearchResult } from '@/lib/search/engine'
 import type { WordView } from '@/lib/word-view'
+import { isStandalone } from '@/lib/install-prompt'
+import { openOfflineDb } from '@/lib/offline/index-db'
+import { markSynced, syncDue, syncOfflineIndex } from '@/lib/offline/index-sync'
+import { getOfflineSearch, type OfflineSearch } from '@/lib/offline/offline-search'
 import Headword from './Headword'
 import styles from './SearchApp.module.css'
 
@@ -48,7 +52,36 @@ export default function SearchApp() {
   const [result, setResult] = useState<SearchResult | null>(null)
   const [error, setError] = useState(false)
   const [selected, setSelected] = useState<Selected | null>(null)
+  const [offline, setOffline] = useState<OfflineSearch | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // The installed app keeps the search index on the device and searches it locally, online or not.
+  useEffect(() => {
+    let cancelled = false
+    const search = getOfflineSearch()
+    if (!search) return
+    const use = (ready: boolean) => {
+      if (!cancelled && ready) setOffline(search)
+    }
+    search.load().then(use, () => {})
+    if (isStandalone() && syncDue() && navigator.onLine !== false) {
+      ;(async () => {
+        try {
+          void navigator.storage?.persist?.()
+          const db = await openOfflineDb()
+          const { updated } = await syncOfflineIndex(db)
+          db.close()
+          markSynced()
+          if (updated.length > 0) use(await search.load())
+        } catch (error) {
+          console.warn('offline index sync failed', error)
+        }
+      })()
+    }
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   // Start from the URL: `/search?q=дом&dict=tsbm`, or a dictionary shortcut of the installed app.
   useEffect(() => {
@@ -67,6 +100,21 @@ export default function SearchApp() {
       setError(false)
       return
     }
+    if (offline) {
+      let stale = false
+      offline.search(q, dict).then(
+        r => {
+          if (!stale) {
+            setResult(r)
+            setError(false)
+          }
+        },
+        () => !stale && setError(true),
+      )
+      return () => {
+        stale = true
+      }
+    }
     const controller = new AbortController()
     const timer = window.setTimeout(async () => {
       const params = new URLSearchParams({ q })
@@ -84,7 +132,7 @@ export default function SearchApp() {
       controller.abort()
       window.clearTimeout(timer)
     }
-  }, [query, dict])
+  }, [query, dict, offline])
 
   // Keep the query in the address bar while the search screen is showing.
   useEffect(() => {

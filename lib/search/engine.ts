@@ -55,12 +55,25 @@ export function stripGluedPrefixLetter(query: string): string | null {
 
 /** Damerau–Levenshtein (optimal string alignment) distance. Case-sensitive; callers lowercase first. */
 export function damerauLevenshtein(a: string, b: string): number {
-  if (a.length === 0 || b.length === 0) return Math.max(a.length, b.length)
+  return boundedDamerauLevenshtein(a, b, Infinity)
+}
+
+let matrix = new Uint16Array(0)
+
+/**
+ * {@link damerauLevenshtein}, capped at `max + 1`, and gives up as soon as it can no longer end within `max`.
+ * The fuzzy step only asks "within 1 or 2?", so most of its 60k candidates stop after a row or two.
+ */
+export function boundedDamerauLevenshtein(a: string, b: string, max: number): number {
+  if (a.length === 0 || b.length === 0) return Math.min(Math.max(a.length, b.length), max + 1)
   const cols = b.length + 1
-  const d = new Uint16Array((a.length + 1) * cols)
+  const size = (a.length + 1) * cols
+  if (matrix.length < size) matrix = new Uint16Array(Math.max(size, 1024))
+  const d = matrix
   for (let i = 0; i <= a.length; i++) d[i * cols] = i
   for (let j = 0; j <= b.length; j++) d[j] = j
   for (let i = 1; i <= a.length; i++) {
+    let rowMin = d[i * cols]
     for (let j = 1; j <= b.length; j++) {
       const cost = a[i - 1] === b[j - 1] ? 0 : 1
       let value = Math.min(d[(i - 1) * cols + j] + 1, d[i * cols + j - 1] + 1, d[(i - 1) * cols + j - 1] + cost)
@@ -68,9 +81,18 @@ export function damerauLevenshtein(a: string, b: string): number {
         value = Math.min(value, d[(i - 2) * cols + j - 2] + cost)
       }
       d[i * cols + j] = value
+      if (value < rowMin) rowMin = value
     }
+    // A transposition reads two rows back, so stop only when this row and the previous one are both over.
+    if (rowMin > max && i >= 2 && minOfRow(d, (i - 1) * cols, cols) > max) return max + 1
   }
-  return d[a.length * cols + b.length]
+  return Math.min(d[a.length * cols + b.length], max + 1)
+}
+
+function minOfRow(d: Uint16Array, start: number, cols: number): number {
+  let min = d[start]
+  for (let j = 1; j < cols; j++) if (d[start + j] < min) min = d[start + j]
+  return min
 }
 
 /** A word in the index as it comes from `main_word`. */
@@ -215,12 +237,19 @@ export class SearchEngine {
       const lword = this.lwords[row]
       // The distance is at least the length difference, so skip the matrix for words that cannot match.
       if (Math.abs(lword.length - query.length) > maxDistance) continue
-      const distance = damerauLevenshtein(query, lword)
+      const distance = boundedDamerauLevenshtein(query, lword, maxDistance)
       if (distance <= maxDistance) scored.push({ row, distance })
     }
     // Array.prototype.sort is stable, so ties keep index row order, like Kotlin's sortedWith.
     scored.sort((a, b) => a.distance - b.distance || compareStrings(this.lwords[a.row], this.lwords[b.row]))
     return scored.slice(0, RESULT_LIMIT).map(s => s.row)
+  }
+
+  /** The words of one dictionary as loaded, for the offline index files. */
+  wordsOf(dict: DictDirection): Array<{ id: number; text: string }> {
+    const out: Array<{ id: number; text: string }> = []
+    for (let i = 0; i < this.size; i++) if (this.dicts[i] === dict) out.push({ id: this.ids[i], text: this.texts[i] })
+    return out
   }
 
   private hit(row: number): SearchHit {

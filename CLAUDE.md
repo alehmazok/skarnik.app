@@ -37,6 +37,7 @@ bun run test:watch   # vitest watch
 | `/search` | Dynamic | Search app and start page of the installed app; `?q=` pages are `noindex, follow`, canonical `/search` |
 | `/api/search?q=&dict=` | Dynamic | Search over the in-memory index (`lib/search/`), same algorithm as the apps |
 | `/api/word/[dict]/[id]` | Dynamic | One word for the search app: Supabase, then the admin API |
+| `/offline-data/index/[dict]` | Dynamic | Offline search index for the installed app: `manifest` (JSON hashes) or one dictionary's gzipped `id\ttext` list |
 | `/~offline` | Static | Fallback the service worker shows for pages not saved offline |
 | `/sw.js` | Generated at build | Serwist service worker from `app/sw.ts` (see PWA below) |
 
@@ -82,6 +83,16 @@ Routes that read Supabase must not render at build time (the Docker build has no
   `lib/search/__fixtures__/app-search.json`.
 - Word lookups (`getWord`, word page and `/api/word`): Supabase, then the admin API
   (`ADMIN_API_URL`, default `https://skarnik.play.of.by`, `GET /api/words/<dict>/<id>/` with `belrus|rusbel|tsbm`).
+
+## Offline search (#23)
+
+- The installed app (standalone display mode) downloads the index after first open and re-checks it once a day:
+  `lib/offline/index-sync.ts` reads `/offline-data/index/manifest` and fetches only dictionaries whose hash changed.
+  Files are built from the server's in-memory index (`getIndexFiles()`), so the hashes always match `/api/search`.
+- Stored in IndexedDB `skarnik-offline` / `search-index` (`lib/offline/index-db.ts`), one record per dictionary.
+- `lib/offline/search.worker.ts` runs the same `SearchEngine` in a Web Worker; `components/SearchApp.tsx` uses it
+  (no debounce) whenever all three dictionaries are stored, online or not, and falls back to `/api/search` otherwise.
+- Never `push(...words)` an index-sized array: Chrome overflows the stack at ~100k arguments.
 
 ## Dictionary directions
 

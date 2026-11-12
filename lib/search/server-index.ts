@@ -1,5 +1,7 @@
 import { createServerClient } from '@/lib/supabase'
 import { DICT_DIRECTIONS, type DictDirection } from '@/lib/dict'
+import { gzipSync } from 'node:zlib'
+import { contentHash, encodeIndex } from '@/lib/offline/index-format'
 import { SearchEngine, type IndexWord } from './engine'
 
 /** PostgREST on Supabase returns at most 1,000 rows per request, so each request asks for 1,000 ids. */
@@ -33,10 +35,10 @@ async function fetchSpan(dict: DictDirection, from: number): Promise<IndexWord[]
   return ((data ?? []) as Row[]).map(r => ({ dict, id: r.external_id, text: r.text }))
 }
 
-/** Every headword of the three dictionaries, read from `main_word` in id spans, a few requests at a time. */
-export async function loadIndexWords(): Promise<IndexWord[]> {
+/** Every headword of the given dictionaries, read from `main_word` in id spans, a few requests at a time. */
+export async function loadIndexWords(dicts: readonly DictDirection[] = DICT_DIRECTIONS): Promise<IndexWord[]> {
   const jobs: Array<() => Promise<IndexWord[]>> = []
-  for (const dict of DICT_DIRECTIONS) {
+  for (const dict of dicts) {
     const max = await maxExternalId(dict)
     for (let from = 0; from <= max; from += ID_SPAN) jobs.push(() => fetchSpan(dict, from))
   }
@@ -53,7 +55,14 @@ export async function loadIndexWords(): Promise<IndexWord[]> {
   return words
 }
 
-let current: { engine: SearchEngine; loadedAt: number } | null = null
+/** One dictionary's offline index file, gzipped once per index load. */
+export interface IndexFile {
+  gzip: Buffer
+  hash: string
+  words: number
+}
+
+let current: { engine: SearchEngine; loadedAt: number; files?: Map<DictDirection, IndexFile> } | null = null
 let loading: Promise<SearchEngine> | null = null
 
 function load(): Promise<SearchEngine> {
@@ -80,6 +89,24 @@ export async function getSearchEngine(): Promise<SearchEngine> {
     load().catch(error => console.error('search index refresh failed', error))
   }
   return current.engine
+}
+
+/**
+ * The offline index files, built from the same in-memory index that answers /api/search, so the installed
+ * app and the server search the same words. Rebuilt whenever the index reloads (daily).
+ */
+export async function getIndexFiles(): Promise<Map<DictDirection, IndexFile>> {
+  const engine = await getSearchEngine()
+  const entry = current
+  if (entry && entry.engine === engine && entry.files) return entry.files
+  const files = new Map<DictDirection, IndexFile>()
+  for (const dict of DICT_DIRECTIONS) {
+    const words = engine.wordsOf(dict)
+    const body = encodeIndex(words)
+    files.set(dict, { gzip: gzipSync(body, { level: 9 }), hash: contentHash(body), words: words.length })
+  }
+  if (entry && entry.engine === engine) entry.files = files
+  return files
 }
 
 /** Starts loading at server start, so the first search does not wait for it. */

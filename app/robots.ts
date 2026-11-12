@@ -6,8 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      // Version endpoint and the PostHog proxy have nothing to index.
-      disallow: ['/api/', '/ingest/'],
+      // Version endpoint, the PostHog proxy and the installed app's bulk dictionary files have nothing to index.
+      disallow: ['/api/', '/ingest/', '/offline-data/'],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   }
