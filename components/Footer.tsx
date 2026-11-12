@@ -75,7 +75,11 @@ export default function Footer() {
           }}>
             © 2026 Skarnik.app
           </span>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px,3vw,30px)' }}>
+          {/* Wraps on narrow phones (360px, e.g. Galaxy S24), else the last link scrolls the page sideways. */}
+          <nav style={{
+            display: 'flex', alignItems: 'center', flexWrap: 'wrap',
+            rowGap: 10, columnGap: 'clamp(16px,3vw,30px)',
+          }}>
             <FooterButton onClick={openAbout}>Пра Скарнік</FooterButton>
             <Link
               href="/privacy"
