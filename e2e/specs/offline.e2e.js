@@ -5,16 +5,21 @@ import { open, overflowingElements } from './helpers.js'
 const belrus = () => $('[data-dict="belrus"]')
 const belrusButton = text => belrus().$(`button=${text}`)
 
-describe('Offline dictionaries', () => {
+describe('Offline dictionaries', function () {
+  // Runs right after a deploy, while the server builds the dictionaries (about a minute), then downloads 3.9 MB.
+  this.timeout(360000)
+
   before(async () => {
+    // BrowserStack's default script timeout is ~0 ms, too short for the IndexedDB read below.
+    await browser.setTimeout({ script: 30000 })
     await open('/search')
   })
 
   it('opens «Афлайн доступ» with the three dictionaries', async () => {
     await $('button=Афлайн доступ').click()
     await expect(belrus()).toBeDisplayed()
-    // The first manifest after a deploy waits for the server to build the dictionaries.
-    await belrusButton('Спампаваць для афлайн доступу').waitForEnabled({ timeout: 180000 })
+    // Right after a deploy the server answers 503 while it builds the dictionaries; the panel retries.
+    await belrusButton('Спампаваць для афлайн доступу').waitForEnabled({ timeout: 240000, interval: 2000 })
     expect(await overflowingElements()).toEqual([])
   })
 

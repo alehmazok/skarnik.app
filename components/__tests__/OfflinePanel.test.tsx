@@ -3,7 +3,7 @@ import { IDBFactory } from 'fake-indexeddb'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import posthog from 'posthog-js'
-import OfflinePanel, { downloadedText, progressText, sizeText } from '../OfflinePanel'
+import OfflinePanel, { MANIFEST_RETRY_MS, downloadedText, progressText, sizeText } from '../OfflinePanel'
 import { encodeShard, shardPath, type DictionaryInfo } from '@/lib/offline/dictionary-format'
 import { contentHash } from '@/lib/offline/index-format'
 import { openOfflineDb, readWord } from '@/lib/offline/index-db'
@@ -73,8 +73,33 @@ describe('OfflinePanel', () => {
     fetchMock.mockImplementation(async () => {
       throw new TypeError('offline')
     })
-    render(<OfflinePanel />)
-    expect(await screen.findByText('Падключыцеся да інтэрнэту, каб спампаваць слоўнік.')).toBeTruthy()
-    expect((within(row('belrus')).getByRole('button', { name: 'Спампаваць для афлайн доступу' }) as HTMLButtonElement).disabled).toBe(true)
+    const onLine = vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false)
+    try {
+      render(<OfflinePanel />)
+      expect(await screen.findByText('Падключыцеся да інтэрнэту, каб спампаваць слоўнік.')).toBeTruthy()
+      expect((within(row('belrus')).getByRole('button', { name: 'Спампаваць для афлайн доступу' }) as HTMLButtonElement).disabled).toBe(true)
+    } finally {
+      onLine.mockRestore()
+    }
+  })
+
+  it('keeps asking for the manifest while the server is still building the dictionaries', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    try {
+      let building = true
+      fetchMock.mockImplementation(async (url: string) =>
+        url === '/offline-data/manifest.json' && building
+          ? new Response('building', { status: 503 })
+          : new Response(JSON.stringify({ dicts: [info('belrus'), info('rusbel'), info('tsbm')] })),
+      )
+      render(<OfflinePanel />)
+      expect(await screen.findByText('Слоўнікі зараз недаступныя. Паспрабуем яшчэ раз праз некалькі секунд.')).toBeTruthy()
+      building = false
+      await vi.advanceTimersByTimeAsync(MANIFEST_RETRY_MS)
+      await waitFor(() => expect(within(row('belrus')).getByText('4,1 МБ')).toBeTruthy())
+      expect((within(row('belrus')).getByRole('button', { name: 'Спампаваць для афлайн доступу' }) as HTMLButtonElement).disabled).toBe(false)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })

@@ -121,6 +121,16 @@ export async function getDictionaryFiles(): Promise<Map<DictDirection, Dictionar
   return files
 }
 
+/**
+ * Whether every dictionary is built. When not, starts the build (if none runs) and returns at once, so a
+ * request right after a deploy gets a quick 503 instead of waiting for the whole build.
+ */
+export function dictionariesReady(): boolean {
+  if (DICT_DIRECTIONS.every(d => files.has(d))) return true
+  buildAll().catch(error => console.error('offline dictionaries build failed', error))
+  return false
+}
+
 export async function getDictionaryManifest(): Promise<DictionaryManifest> {
   const all = await getDictionaryFiles()
   return {
