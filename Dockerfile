@@ -17,6 +17,9 @@ WORKDIR /app
 ARG GIT_SHA=unknown
 ARG BUILD_TIME=unknown
 ENV NODE_ENV=production PORT=3000 HOSTNAME=0.0.0.0 GIT_SHA=$GIT_SHA BUILD_TIME=$BUILD_TIME
+# Heap cap below the container's mem_limit (512m, /opt/skarnik/docker-compose.yml): V8 collects harder
+# instead of growing until the kernel OOM-kills. Warmup (search index + offline shards) peaks ~430 MB RSS.
+ENV NODE_OPTIONS=--max-old-space-size=384
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
