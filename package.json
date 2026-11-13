@@ -33,6 +33,7 @@
     "@vitejs/plugin-react": "^6.0.3",
     "eslint": "^9",
     "eslint-config-next": "^15",
+    "fake-indexeddb": "^6.2.8",
     "jsdom": "^29.1.1",
     "serwist": "9.5.13",
     "typescript": "^5",

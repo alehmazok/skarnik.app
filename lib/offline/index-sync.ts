@@ -7,6 +7,8 @@ import type { IndexManifest } from './index-format'
 
 export const MANIFEST_PATH = '/offline-data/index/manifest'
 export const SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000
+/** Window event sent after the index was downloaded outside the search app (the «Афлайн доступ» panel). */
+export const OFFLINE_INDEX_UPDATED = 'skarnik-offline-index-updated'
 const LAST_SYNC_KEY = 'skarnik-offline-index-checked'
 
 export interface SyncResult {

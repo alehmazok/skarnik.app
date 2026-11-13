@@ -4,7 +4,7 @@ import { isValidDict } from '@/lib/dict'
 import { redirectTarget, wordDescription, wordJsonLd, wordPath, wordTitle, SITE_NAME } from '@/lib/seo'
 import { sanitizeTranslation } from '@/lib/translation'
 import { getWord } from '@/lib/words'
-import { headingFontSize, headwordLang } from '@/lib/heading'
+import { WORD_LABEL, headingFontSize, headwordLang } from '@/lib/heading'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Headword from '@/components/Headword'
@@ -31,8 +31,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!Number.isInteger(externalId) || externalId <= 0) return {}
   const word = await getWord(dict, externalId)
   if (!word) return {}
-  const target = redirectTarget(word.redirect_to)
-  const canonical = wordPath(dict, target ?? externalId)
+  const target = redirectTarget(word.redirect_to, dict)
+  const canonical = target ? wordPath(target.dict, target.id) : wordPath(dict, externalId)
   const description = wordDescription(word, dict)
   // og:title keeps the stress mark: it shows in link previews when a word is shared.
   const ogTitle = `${word.stress ?? word.text} — ${SITE_NAME}`
@@ -65,8 +65,8 @@ export default async function WordPage({ params }: PageProps) {
 
   // Aliases and non-canonical ids (`/r/belrus/027890`) move permanently to
   // one URL per word, so search engines index it once.
-  const target = redirectTarget(word.redirect_to)
-  if (target) permanentRedirect(wordPath(dict, target))
+  const target = redirectTarget(word.redirect_to, dict)
+  if (target) permanentRedirect(wordPath(target.dict, target.id))
   if (id !== String(externalId)) permanentRedirect(wordPath(dict, externalId))
 
   const safeHtml = sanitizeTranslation(word.translation)
@@ -92,7 +92,7 @@ export default async function WordPage({ params }: PageProps) {
           fontSize: 12, letterSpacing: '.16em', textTransform: 'uppercase',
           color: 'var(--faint)',
         }}>
-          <span>{dictLabel(dict)}</span>
+          <span>{WORD_LABEL[dict]}</span>
         </div>
 
         <Headword
@@ -121,8 +121,3 @@ export default async function WordPage({ params }: PageProps) {
   )
 }
 
-function dictLabel(dict: string): string {
-  if (dict === 'belrus') return 'пераклад на рускую мову'
-  if (dict === 'rusbel') return 'пераклад на беларускую мову'
-  return 'тлумачальны слоўнік'
-}

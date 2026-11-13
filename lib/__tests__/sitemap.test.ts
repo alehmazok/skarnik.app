@@ -109,7 +109,7 @@ describe('getWordSitemapUrls', () => {
     const full = Array.from({ length: 1000 }, (_, i) => ({ external_id: 50000 + i, redirect_to: null }))
     responses.push(
       { data: full, error: null },
-      { data: [{ external_id: 51500, redirect_to: '7' }, { external_id: 51501, redirect_to: '' }], error: null },
+      { data: [{ external_id: 51500, redirect_to: '/rusbel/7' }, { external_id: 51501, redirect_to: '' }], error: null },
     )
     const urls = await getWordSitemapUrls('rusbel', 1)
     expect(urls).toHaveLength(1001)

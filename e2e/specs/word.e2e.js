@@ -38,6 +38,14 @@ describe('Shared word page', () => {
     })
   })
 
+  it('redirects an alias to the word it points to', async () => {
+    // `redirect_to` of tsbm 20126 («дву...») is `/tsbm/20127`.
+    await browser.url('/r/tsbm/20126')
+    await browser.waitUntil(async () => (await browser.getUrl()).endsWith('/r/tsbm/20127'), {
+      timeoutMsg: 'the alias did not redirect to its target',
+    })
+  })
+
   it('shows 404 for an unknown dictionary', async () => {
     await browser.url('/r/nope/1')
     await expect($('h1')).toHaveText('404', { containing: true })
