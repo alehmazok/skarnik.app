@@ -3,24 +3,27 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import posthog from 'posthog-js'
 import { DICT_DIRECTIONS, isValidDict, type DictDirection } from '@/lib/dict'
-import { WORD_LABEL, headwordLang } from '@/lib/heading'
+import { headwordLang } from '@/lib/heading'
 import { wordPath } from '@/lib/seo'
 import type { SearchHit, SearchResult } from '@/lib/search/engine'
 import type { WordView } from '@/lib/word-view'
 import { isStandalone } from '@/lib/install-prompt'
-import { openOfflineDb, readDictionaries } from '@/lib/offline/index-db'
-import { OFFLINE_INDEX_UPDATED, markSynced, syncDue, syncOfflineIndex } from '@/lib/offline/index-sync'
+import { openOfflineDb } from '@/lib/offline/index-db'
+import { markSynced, syncDue, syncOfflineIndex } from '@/lib/offline/index-sync'
 import { getOfflineSearch, type OfflineSearch } from '@/lib/offline/offline-search'
-import { readOfflineWord } from '@/lib/offline/offline-word'
-import { dictionaryUpdateDue, markDictionariesChecked, updateDownloadedDictionaries } from '@/lib/offline/dictionary-sync'
 import Headword from './Headword'
-import { OfflineAccess } from './OfflinePanel'
 import styles from './SearchApp.module.css'
 
 export const DICT_SHORT: Record<DictDirection, string> = {
   belrus: 'Бел-Рус',
   rusbel: 'Рус-Бел',
   tsbm: 'Тлумачальны',
+}
+
+const PANE_LABEL: Record<DictDirection, string> = {
+  belrus: 'пераклад на рускую мову',
+  rusbel: 'пераклад на беларускую мову',
+  tsbm: 'тлумачальны слоўнік',
 }
 
 const WIDE_QUERY = '(min-width: 840px)'
@@ -61,37 +64,22 @@ export default function SearchApp() {
       if (!cancelled && ready) setOffline(search)
     }
     search.load().then(use, () => {})
-    // A dictionary downloaded in «Афлайн доступ» brings the search index along; use it once it is stored.
-    const onIndexUpdated = () => void search.load().then(use, () => {})
-    window.addEventListener(OFFLINE_INDEX_UPDATED, onIndexUpdated)
-    if (navigator.onLine !== false) {
+    if (isStandalone() && syncDue() && navigator.onLine !== false) {
       ;(async () => {
-        let db: IDBDatabase | null = null
         try {
-          db = await openOfflineDb()
-          // The installed app, or a browser with a downloaded dictionary, keeps the search index fresh.
-          const downloaded = (await readDictionaries(db)).length > 0
-          if ((isStandalone() || downloaded) && syncDue()) {
-            if (isStandalone()) void navigator.storage?.persist?.()
-            const { updated } = await syncOfflineIndex(db)
-            markSynced()
-            if (updated.length > 0) use(await search.load())
-          }
-          // Downloaded dictionaries: fetch the shards admin changed, once a day.
-          if (downloaded && dictionaryUpdateDue()) {
-            await updateDownloadedDictionaries(db)
-            markDictionariesChecked()
-          }
+          void navigator.storage?.persist?.()
+          const db = await openOfflineDb()
+          const { updated } = await syncOfflineIndex(db)
+          db.close()
+          markSynced()
+          if (updated.length > 0) use(await search.load())
         } catch (error) {
-          console.warn('offline data update failed', error)
-        } finally {
-          db?.close()
+          console.warn('offline index sync failed', error)
         }
       })()
     }
     return () => {
       cancelled = true
-      window.removeEventListener(OFFLINE_INDEX_UPDATED, onIndexUpdated)
     }
   }, [])
 
@@ -204,7 +192,6 @@ export default function SearchApp() {
             </button>
           ))}
         </div>
-        <OfflineAccess />
       </div>
 
       <div className={styles.body}>
@@ -255,14 +242,6 @@ function WordPane({ word, onOpen }: { word: Selected; onOpen: (word: Selected, e
     const controller = new AbortController()
     ;(async () => {
       try {
-        // A downloaded dictionary answers first, then the server (Supabase, then the admin API).
-        const stored = await readOfflineWord(word.dict, word.id)
-        if (controller.signal.aborted) return
-        if (stored) {
-          setView(stored)
-          posthog.capture('word_viewed', { dict: stored.dict, word_id: stored.id, source: 'search' })
-          return
-        }
         let current = word
         // An alias shows the word it points to (one hop, like the word page's redirect).
         for (let hop = 0; hop < 2; hop++) {
@@ -270,7 +249,7 @@ function WordPane({ word, onOpen }: { word: Selected; onOpen: (word: Selected, e
           if (!response.ok) throw new Error(String(response.status))
           const data = (await response.json()) as WordView
           if (data.redirectTo && hop === 0) {
-            current = data.redirectTo
+            current = { dict: current.dict, id: data.redirectTo }
             continue
           }
           setView(data)
@@ -295,7 +274,7 @@ function WordPane({ word, onOpen }: { word: Selected; onOpen: (word: Selected, e
   if (!view) return null
   return (
     <article>
-      <div className={styles.paneLabel}>{WORD_LABEL[view.dict]}</div>
+      <div className={styles.paneLabel}>{PANE_LABEL[view.dict]}</div>
       <Headword text={view.text} stress={view.stress} lang={headwordLang(view.dict)} fontSize="clamp(2rem,4vw,3.6rem)" />
       <div
         className={`translation-html ${styles.translation}`}

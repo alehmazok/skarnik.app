@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import posthog from 'posthog-js'
-import styles from './ThemeToggle.module.css'
 
 type Theme = 'auto' | 'light' | 'dark'
 
@@ -13,8 +12,7 @@ const LABELS: Record<Theme, { glyph: string; label: string }> = {
   dark:  { glyph: '●', label: 'Ноч' },
 }
 
-/** `inHeader`: hidden inside the installed app, where the theme is set in «Афлайн доступ» (#24). */
-export default function ThemeToggle({ inHeader = false }: { inHeader?: boolean }) {
+export default function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>('auto')
 
   useEffect(() => {
@@ -36,7 +34,7 @@ export default function ThemeToggle({ inHeader = false }: { inHeader?: boolean }
   const { glyph, label } = LABELS[theme]
 
   return (
-    <button onClick={cycle} title="Тэма" className={inHeader ? styles.header : undefined} style={{
+    <button onClick={cycle} title="Тэма" style={{
       display: 'flex', alignItems: 'center', gap: 8,
       height: 36, padding: '0 14px',
       border: '1px solid var(--line)', borderRadius: 100,

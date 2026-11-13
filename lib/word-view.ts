@@ -1,5 +1,5 @@
 import type { DictDirection } from './dict'
-import { redirectTarget, type WordRef } from './seo'
+import { redirectTarget } from './seo'
 import { sanitizeTranslation } from './translation'
 import type { WordRecord } from './supabase'
 
@@ -10,8 +10,8 @@ export interface WordView {
   text: string
   stress: string | null
   html: string
-  /** The word this alias points to, or null. */
-  redirectTo: WordRef | null
+  /** Id of the word this alias points to, or null. */
+  redirectTo: number | null
 }
 
 export function toWordView(dict: DictDirection, externalId: number, word: WordRecord): WordView {
@@ -21,6 +21,6 @@ export function toWordView(dict: DictDirection, externalId: number, word: WordRe
     text: word.text,
     stress: word.stress,
     html: sanitizeTranslation(word.translation),
-    redirectTo: redirectTarget(word.redirect_to, dict),
+    redirectTo: redirectTarget(word.redirect_to),
   }
 }

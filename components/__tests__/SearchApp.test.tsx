@@ -95,7 +95,7 @@ describe('SearchApp', () => {
   it('follows an alias to its target word', async () => {
     wide = true
     fetchMock.mockImplementation((url: string) => {
-      if (url === '/api/word/rusbel/4') return json({ dict: 'rusbel', id: 4, text: 'дом', stress: null, html: '', redirectTo: { dict: 'rusbel', id: 9 } })
+      if (url === '/api/word/rusbel/4') return json({ dict: 'rusbel', id: 4, text: 'дом', stress: null, html: '', redirectTo: 9 })
       if (url === '/api/word/rusbel/9') return json({ dict: 'rusbel', id: 9, text: 'жилище', stress: null, html: '<i>target</i>', redirectTo: null })
       return json(RESULT)
     })

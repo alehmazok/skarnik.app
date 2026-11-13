@@ -37,10 +37,3 @@ export function headingFontSize(text: string): string {
 export function headwordLang(dict: DictDirection): 'ru' | 'be' {
   return dict === 'rusbel' ? 'ru' : 'be'
 }
-
-/** The small label above the headword on the word page. */
-export const WORD_LABEL: Record<DictDirection, string> = {
-  belrus: 'пераклад на рускую мову',
-  rusbel: 'пераклад на беларускую мову',
-  tsbm: 'тлумачальны слоўнік',
-}

@@ -108,3 +108,9 @@ export async function getIndexFiles(): Promise<Map<DictDirection, IndexFile>> {
   if (entry && entry.engine === engine) entry.files = files
   return files
 }
+
+/** Starts loading at server start, so the first search does not wait for it. */
+export function warmSearchIndex(): void {
+  if (!process.env.SUPABASE_URL) return
+  getSearchEngine().catch(error => console.error('search index warm-up failed', error))
+}

@@ -34,7 +34,7 @@ export interface PrivacyPolicy {
 }
 
 export const PRIVACY_CONTACT_EMAIL = 'skarnikapp@gmail.com'
-export const PRIVACY_UPDATED = '2026-11-12'
+export const PRIVACY_UPDATED = '2026-11-07'
 
 const mail: PolicyLink = { text: PRIVACY_CONTACT_EMAIL, href: `mailto:${PRIVACY_CONTACT_EMAIL}` }
 
@@ -52,7 +52,7 @@ const be: PrivacyPolicy = {
   description: 'Якія даныя збіраюць праграмы Скарнік для Android і iOS і сайт skarnik.app, і навошта.',
   updatedLabel: 'Абноўлена',
   updated: PRIVACY_UPDATED,
-  updatedText: '12 лістапада 2026',
+  updatedText: '7 лістапада 2026',
   otherLanguage: { text: 'English', href: '/privacy/en' },
   sections: [
     {
@@ -144,8 +144,7 @@ const be: PrivacyPolicy = {
       id: 'website',
       heading: 'Сайт skarnik.app',
       blocks: [
-        { p: ['Сайт выкарыстоўвае ', { text: 'PostHog', href: links.posthog }, ' (серверы ў ЕС) для статыстыкі наведванняў толькі калі вы націснулі «Прыняць» у паведамленні пра cookies. Улічваюцца прагляды старонак і слоў, націскі на кнопкі крам, усталяванне сайта як праграмы, спампоўка слоўнікаў для афлайн доступу, змена тэмы і памылкі на старонцы. Выбар тэмы захоўваецца ў вашым браўзеры.'] },
-        { p: 'Калі вы ўсталёўваеце сайт як праграму або спампоўваеце слоўнік для афлайн доступу, пошукавы індэкс і слоўнікі захоўваюцца ў браўзеры на вашай прыладзе (IndexedDB). Яны нікуды не адпраўляюцца, а выдаліць іх можна ў «Афлайн доступ» або ачысціўшы даныя сайта ў браўзеры.' },
+        { p: ['Сайт выкарыстоўвае ', { text: 'PostHog', href: links.posthog }, ' (серверы ў ЕС) для статыстыкі наведванняў толькі калі вы націснулі «Прыняць» у паведамленні пра cookies. Улічваюцца прагляды старонак і слоў, націскі на кнопкі крам, змена тэмы і памылкі на старонцы. Выбар тэмы захоўваецца ў вашым браўзеры.'] },
       ],
     },
     {
@@ -187,7 +186,7 @@ const en: PrivacyPolicy = {
   description: 'What the Skarnik apps for Android and iOS and the skarnik.app website collect, and why.',
   updatedLabel: 'Last updated',
   updated: PRIVACY_UPDATED,
-  updatedText: 'November 12, 2026',
+  updatedText: 'November 7, 2026',
   otherLanguage: { text: 'Беларуская', href: '/privacy' },
   sections: [
     {
@@ -279,8 +278,7 @@ const en: PrivacyPolicy = {
       id: 'website',
       heading: 'The skarnik.app website',
       blocks: [
-        { p: ['The website uses ', { text: 'PostHog', href: links.posthog }, ' (servers in the EU) for visit statistics only after you click “Accept” in the cookie notice. It records page and word views, store-button clicks, installing the website as an app, downloading dictionaries for offline use, theme changes and page errors. Your theme choice is stored in your browser.'] },
-        { p: 'When you install the website as an app or download a dictionary for offline use, the search index and the dictionaries are stored in your browser on your device (IndexedDB). They are not sent anywhere, and you can delete them in “Афлайн доступ” (Offline access) or by clearing the site’s data in your browser.' },
+        { p: ['The website uses ', { text: 'PostHog', href: links.posthog }, ' (servers in the EU) for visit statistics only after you click “Accept” in the cookie notice. It records page and word views, store-button clicks, theme changes and page errors. Your theme choice is stored in your browser.'] },
       ],
     },
     {

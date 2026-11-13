@@ -1,5 +1,0 @@
-@media (display-mode: standalone), (display-mode: window-controls-overlay) {
-  .header {
-    display: none !important;
-  }
-}

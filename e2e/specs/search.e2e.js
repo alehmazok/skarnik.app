@@ -1,4 +1,4 @@
-import { browser, $, expect } from '@wdio/globals'
+import { browser, $, $$, expect } from '@wdio/globals'
 import { open, overflowingElements } from './helpers.js'
 
 describe('Search', () => {
@@ -20,19 +20,17 @@ describe('Search', () => {
     })
     await open('/search?q=%D0%B4%D0%BE%D0%BC')
     await expect($('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
-    // Safari's driver has no `property/value`, so read the value in the page.
-    expect(await browser.execute(() => document.querySelector('input[type="search"]').value)).toBe('дом')
+    await expect($('input[type="search"]')).toHaveValue('дом')
   })
 
   it('filters by dictionary', async () => {
     await $('button=Тлумачальны').click()
     await browser.waitUntil(
       async () => {
-        // Read the hrefs in the page: an awaited `$$` result's `.map` returns a promise, not an array.
-        const hrefs = await browser.execute(() =>
-          Array.from(document.querySelectorAll('ul a[href^="/r/"]'), a => a.getAttribute('href')),
-        )
-        return hrefs.length > 0 && hrefs.every(h => h.startsWith('/r/tsbm/'))
+        const links = await $$('ul a[href^="/r/"]')
+        if (links.length === 0) return false
+        const hrefs = await Promise.all(links.map(l => l.getAttribute('href')))
+        return hrefs.every(h => h.startsWith('/r/tsbm/'))
       },
       { timeout: 20000, timeoutMsg: 'results were not limited to Тлумачальны' },
     )

@@ -17,7 +17,7 @@ export default function Header() {
       </Link>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <InstallButton />
-        <ThemeToggle inHeader />
+        <ThemeToggle />
       </div>
     </header>
   )

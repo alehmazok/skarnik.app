@@ -66,24 +66,16 @@ describe('wordDescription', () => {
 })
 
 describe('redirectTarget', () => {
-  it('reads the stored path of the target word', () => {
-    expect(redirectTarget('/tsbm/20127', 'tsbm')).toEqual({ dict: 'tsbm', id: 20127 })
-    expect(redirectTarget('/rusbel/81075/', 'rusbel')).toEqual({ dict: 'rusbel', id: 81075 })
-    expect(redirectTarget('https://skarnik.by/belrus/7', 'tsbm')).toEqual({ dict: 'belrus', id: 7 })
-    expect(redirectTarget('https://skarnik.app/r/belrus/7', 'belrus')).toEqual({ dict: 'belrus', id: 7 })
+  it('returns a positive integer id', () => {
+    expect(redirectTarget('123')).toBe(123)
   })
 
-  it('reads a bare id as the same dictionary', () => {
-    expect(redirectTarget('123', 'belrus')).toEqual({ dict: 'belrus', id: 123 })
-  })
-
-  it('ignores empty and unknown values', () => {
-    expect(redirectTarget(null, 'belrus')).toBeNull()
-    expect(redirectTarget('', 'belrus')).toBeNull()
-    expect(redirectTarget('0', 'belrus')).toBeNull()
-    expect(redirectTarget('1.5', 'belrus')).toBeNull()
-    expect(redirectTarget('/other/5', 'belrus')).toBeNull()
-    expect(redirectTarget('https://example.com/belrus/5', 'belrus')).toBeNull()
+  it('ignores empty and non-numeric values', () => {
+    expect(redirectTarget(null)).toBeNull()
+    expect(redirectTarget('')).toBeNull()
+    expect(redirectTarget('http://skarnik.by/belrus/1')).toBeNull()
+    expect(redirectTarget('0')).toBeNull()
+    expect(redirectTarget('1.5')).toBeNull()
   })
 })
 

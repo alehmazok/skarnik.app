@@ -18,30 +18,14 @@ export function wordPath(dict: DictDirection, externalId: number): string {
   return `/r/${dict}/${externalId}`
 }
 
-/** A word addressed by dictionary and id, e.g. the target of an alias. */
-export interface WordRef {
-  dict: DictDirection
-  id: number
-}
-
-// `/tsbm/20127` as stored in `redirect_to`, or a full skarnik.by / skarnik.app word link (skarnik_android's WordLink).
-const WORD_LINK = /^(?:https?:\/\/(?:www\.)?(?:skarnik\.by|skarnik\.app))?\/(?:r\/)?(belrus|rusbel|tsbm)\/(\d+)\/?(?:[?#].*)?$/
-
 /**
- * The word an alias points to, or null when the word is shown itself. `redirect_to` holds a path like
- * `/rusbel/81075`; a bare id means the same dictionary. Mirrors the redirect on the word page.
+ * Target id of an alias word, or null when the word is shown itself.
+ * Mirrors the redirect on the word page.
  */
-export function redirectTarget(redirectTo: string | null, dict: DictDirection): WordRef | null {
-  const value = redirectTo?.trim()
-  if (!value) return null
-  if (/^\d+$/.test(value)) {
-    const id = Number(value)
-    return id > 0 ? { dict, id } : null
-  }
-  const match = WORD_LINK.exec(value)
-  if (!match) return null
-  const id = Number(match[2])
-  return id > 0 ? { dict: match[1] as DictDirection, id } : null
+export function redirectTarget(redirectTo: string | null): number | null {
+  if (!redirectTo) return null
+  const id = Number(redirectTo)
+  return Number.isInteger(id) && id > 0 ? id : null
 }
 
 const ENTITIES: Record<string, string> = {

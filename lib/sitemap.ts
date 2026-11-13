@@ -83,7 +83,7 @@ export async function getWordSitemapUrls(dict: DictDirection, page: number): Pro
     if (error) throw new Error(`sitemap ${dict}/${page}: ${error.message}`)
     const rows = (data ?? []) as unknown as { external_id: number; redirect_to: string | null }[]
     for (const row of rows) {
-      if (redirectTarget(row.redirect_to, dict) === null) urls.push(`${SITE_URL}${wordPath(dict, row.external_id)}`)
+      if (redirectTarget(row.redirect_to) === null) urls.push(`${SITE_URL}${wordPath(dict, row.external_id)}`)
     }
     if (rows.length < PAGE_ROWS) break
     after = rows[rows.length - 1].external_id
