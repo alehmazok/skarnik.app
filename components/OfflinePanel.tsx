@@ -27,6 +27,7 @@ const TEXT = {
   deleteError: 'Не атрымалася выдаліць афлайн-копію.',
   cancel: 'Скасаваць',
   offline: 'Падключыцеся да інтэрнэту, каб спампаваць слоўнік.',
+  unavailable: 'Слоўнікі зараз недаступныя. Паспрабуем яшчэ раз праз некалькі секунд.',
   appearance: 'Выгляд',
   theme: 'Тэма',
 }
@@ -43,6 +44,8 @@ export function sizeText(bytes: number): string {
   // Decimal comma, the Belarusian way (browsers disagree on `be` number formatting).
   return `${(bytes / 1_000_000).toFixed(1).replace('.', ',')} МБ`
 }
+
+export const MANIFEST_RETRY_MS = 15_000
 
 interface RowState {
   progress: { words: number; total: number } | null
@@ -78,12 +81,22 @@ export default function OfflinePanel() {
   useEffect(() => {
     mounted.current = true
     reload().catch(() => {})
-    fetchDictionaryManifest().then(
-      m => mounted.current && setManifest(new Map(m.dicts.map(d => [d.dict, d]))),
-      () => mounted.current && setManifestFailed(true),
-    )
+    // The server answers 503 for about a minute after a deploy while it builds the dictionaries, and the
+    // network may be down: keep asking while the panel is open.
+    let retry: number | undefined
+    const load = () =>
+      fetchDictionaryManifest().then(
+        m => mounted.current && setManifest(new Map(m.dicts.map(d => [d.dict, d]))),
+        () => {
+          if (!mounted.current) return
+          setManifestFailed(true)
+          retry = window.setTimeout(load, MANIFEST_RETRY_MS)
+        },
+      )
+    load()
     return () => {
       mounted.current = false
+      window.clearTimeout(retry)
     }
   }, [reload])
 
@@ -201,7 +214,9 @@ export default function OfflinePanel() {
           )
         })}
       </ul>
-      {manifestFailed && !manifest && <p className={styles.meta}>{TEXT.offline}</p>}
+      {manifestFailed && !manifest && (
+        <p className={styles.meta}>{typeof navigator !== 'undefined' && navigator.onLine === false ? TEXT.offline : TEXT.unavailable}</p>
+      )}
 
       <h3 className={styles.section}>{TEXT.appearance}</h3>
       <div className={styles.row}>
