@@ -21,6 +21,10 @@ const withSerwist = withSerwistInit({
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // OG images read the bundled font from disk (lib/og-font.ts); make sure standalone ships it.
+  outputFileTracingIncludes: {
+    '/r/[dict]/[id]/opengraph-image': ['./assets/fonts/Inter-Bold.ttf'],
+  },
   async rewrites() {
     return [
       {
